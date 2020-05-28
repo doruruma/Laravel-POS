@@ -66,5 +66,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/products/{product}', 'ProductController@update')->name('product.update');
         Route::delete('/products/{product}', 'ProductController@delete')->name('product.delete');
     });
+
+    Route::group(['middleware' => 'cashier'], function () {
+        // Cashier
+        Route::get('/cashier', 'CashierController@index')->name('cashier');
+    });
     
 });

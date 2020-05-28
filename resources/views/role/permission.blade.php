@@ -56,16 +56,23 @@
             <table class="table table-bordered">
               <thead class="text-muted">
                 <th>Menu</th>
-                <th class="text-center"><i class="fas fa-cogs"></i></th>
+                <th class="text-center">Grant</th>
+                <th class="text-center">Deny</th>
               </thead>
               <tbody>
                 @foreach ($menus as $menu)
                   <tr>
                     <td>{{ $menu->menu }}</td>
                     <td class="text-center">
-                      <div class="icheck-sunflower">
-                        <input type="checkbox" name="accesses[]" id="{{ $menu->id }}" value="{{ $menu->id }}" {{ RoleHelper::check($role->id, $menu->id) }}>
+                      <div class="icheck-primary">
+                        <input type="radio" name="{{ $menu->id }}" id="{{ $menu->id }}" value="{{ $menu->id }}" {{ RoleHelper::check($role->id, $menu->id) }}>
                         <label for="{{ $menu->id }}"></label>
+                      </div>
+                    </td>
+                    <td class="text-center">
+                      <div class="icheck-danger">
+                        <input type="radio" name="{{ $menu->id }}" id="deny{{ $menu->id }}" value="deny.{{ $menu->id }}" {{ RoleHelper::uncheck($role->id, $menu->id) }}>
+                        <label for="deny{{ $menu->id }}"></label>
                       </div>
                     </td>
                   </tr>

@@ -17,7 +17,7 @@ class RoleCashierMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!Access::where(['role_id' => Auth::user()->role_id, 'menu_id' => 3])) {
+        if (Access::where(['role_id' => Auth::user()->role_id, 'menu_id' => 5])->exists() == false) {
             return view('block');
         }
         return $next($request);

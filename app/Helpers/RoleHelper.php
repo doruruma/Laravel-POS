@@ -14,4 +14,11 @@ class RoleHelper
         }
     }
 
+    public static function uncheck($role_id, $menu_id)
+    {
+        if (!Access::where(['role_id' => $role_id, 'menu_id' => $menu_id])->exists()) {
+            return "checked='checked'";
+        }
+    }
+
 }

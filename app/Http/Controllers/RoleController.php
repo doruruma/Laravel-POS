@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class RoleController extends Controller
 {
-    
+
     public function index()
     {
         $roles = Role::without('accesses')->get();
@@ -26,8 +26,13 @@ class RoleController extends Controller
 
     public function updatePermission(Request $req, $id)
     {
-        foreach ($req->accesses as $access) {
-            Access::updateOrCreate(['role_id' => $id, 'menu_id' => $access]);
+        foreach ($req->except(['_token']) as $access) {
+            if (strpos($access, 'deny') !== false) {
+                $menu_id = substr($access, strpos($access, '.') + 1);
+                Access::where(['menu_id' => $menu_id, 'role_id' => $id])->delete();
+            } else {
+                Access::updateOrCreate(['role_id' => $id, 'menu_id' => $access]);
+            }
         }
         return redirect(route('role'))->with([
             'type' => 'success',
