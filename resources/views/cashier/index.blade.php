@@ -5,7 +5,22 @@
 @section('script')
 <script>
   $(document).ready(function() {
-    $('.cashier').addClass('active');
+
+    $('.cashier').addClass('active')
+
+    $('.btn-add-cart').click(function(evt) {
+      evt.preventDefault()
+      $.ajax({
+        url: $(this).parent().attr('action'),
+        data: $(this).parent().serialize(),
+        dataType: 'JSON',
+        method: 'POST',
+        success: function(res) {
+          console.log(res);
+        }
+      })      
+    })
+
   })
 </script>
 @endsection
@@ -46,6 +61,12 @@
               <div class="card-body">
                 <div class="d-block">{{ $product->name }}</div>
                 <small class="text-muted">Rp {{ number_format($product->price, 0, '.', ",") }}</small>
+              </div>
+              <div class="card-footer" style="height:50px; background:#fff">
+                <form action={{ route('cart.store', $product->id) }} method="post" class="d-inline">
+                  @csrf <button class="btn btn-sm btn-default text-success btn-add-cart"><i class="fas fa-cart-plus"></i></button>
+                </form>
+                <button class="btn btn-sm btn-default text-info btn-checkout"><i class="fas fa-check"></i></button>
               </div>
             </div>
           </div>

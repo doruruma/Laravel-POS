@@ -24,7 +24,8 @@ class SubmenuSeeder extends Seeder
             ['submenu' => 'Role', 'route' => 'role', 'icon' => 'fas fa-cogs', 'identifier' => 'role', 'menu_id' => 2, 'active' => 1],
             ['submenu' => 'Categories', 'route' => 'category', 'icon' => 'fas fa-th', 'identifier' => 'category', 'menu_id' => 4, 'active' => 1],
             ['submenu' => 'Products', 'route' => 'product', 'icon' => 'fas fa-file', 'identifier' => 'product', 'menu_id' => 4, 'active' => 1],
-            ['submenu' => 'Cashier Transaction', 'route' => 'cashier', 'icon' => 'fas fa-money', 'identifier' => 'cashier', 'menu_id' => 5, 'active' => 1],
+            ['submenu' => 'Cashier Transaction', 'route' => 'cashier', 'icon' => 'fas fa-cash-register', 'identifier' => 'cashier', 'menu_id' => 5, 'active' => 1],
+            ['submenu' => 'Cart', 'route' => 'cart', 'icon' => 'fas fa-shopping-cart', 'identifier' => 'cart', 'menu_id' => 5, 'active' => 1],
         ];
         foreach ($submenus as $submenu) {
             Submenu::create($submenu);

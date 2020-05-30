@@ -70,6 +70,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'cashier'], function () {
         // Cashier
         Route::get('/cashier', 'CashierController@index')->name('cashier');
+        // Cart
+        Route::get('/cart', 'CashierController@cart')->name('cart');
+        Route::post('/cart/{product}', 'CashierController@store')->name('cart.store');
     });
     
 });
