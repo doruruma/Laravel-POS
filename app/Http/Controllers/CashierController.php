@@ -38,14 +38,14 @@ class CashierController extends Controller
                 ]
             ];
             session()->put('cart', $cart);
-            return response()->json(['message' => 'Added to Cart'], 200);
+            return response()->json(['message' => 'Item(s) successfully added to cart'], 200);
         }
 
         // if item exist in cart
         if (isset($cart[$id])) {
             $cart[$id]['qty']++;
             session()->put('cart', $cart);
-            return response()->json(['message' => 'Added to Cart'], 200);
+            return response()->json(['message' => 'Item Quantity increased'], 200);
         }
 
         // if not exist
@@ -55,7 +55,7 @@ class CashierController extends Controller
             'qty' => 1
         ];
         session()->put('cart', $cart);
-        return response()->json(['message' => 'Added to Cart'], 200);
+        return response()->json(['message' => 'Item(s) successfully added to cart'], 200);
     }
 
 }

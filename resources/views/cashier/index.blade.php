@@ -16,7 +16,9 @@
         dataType: 'JSON',
         method: 'POST',
         success: function(res) {
-          console.log(res);
+          $('.toast').toast('show')
+          $('.toast-body').html(res.message)
+          console.log(res)
         }
       })      
     })
@@ -78,6 +80,19 @@
 
   </section>
   <!-- /.Main content -->
+  
+  <!-- Toast -->
+  <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000" style="position: absolute; top: 10px; right: 10px; z-index:9999">
+    <div class="toast-header">
+      <i class="mr-2 fas fa-bell text-info"></i>
+      <strong class="mr-5">Operation Successfull</strong>
+      <i class="fas fa-check text-info"></i>
+    </div>
+    <div class="toast-body">
+      Item(s) successfully added to cart
+    </div>
+  </div>
+  <!-- /.Toast -->
 
 </div>
 <!-- /.content-wrapper -->
