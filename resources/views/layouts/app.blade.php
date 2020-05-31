@@ -22,6 +22,7 @@
 
   {{-- Other Plugins --}}
   <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+  <link rel="stylesheet" href={{ asset('plugins/animatecss/animate.css') }}>
 
   {{-- Jquery --}}
   <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
@@ -38,7 +39,7 @@
   @yield('css')
 
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed">
 
   @include('layouts.navbar')
 

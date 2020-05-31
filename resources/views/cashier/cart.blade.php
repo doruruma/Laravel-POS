@@ -21,7 +21,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Dashboard</h1>
+          <h1>Cart</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -41,9 +41,34 @@
 
       @if (session('cart'))       
         <div class="row">
-          @foreach (session('cart') as $cart)
-              <h5>{{ $cart['name'] }}</h5>
-          @endforeach
+
+          <div class="col-12">
+            <div class="card">
+              <ul class="list-group">
+              @foreach (session('cart') as $cart)
+                <li class="list-group-item d-flex justify-content-between align-items-center" style="border:none">
+                  <div>
+                    {{ $cart['name'] }}
+                    <small class="d-block text-muted">Price : Rp {{ number_format($cart['price']) }}</small>
+                  </div>
+                  <div class="text-muted ml-auto">
+                    <small>Qty: {{ $cart['qty'] }}</small>
+                  </div>
+                  <div class="ml-1">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                      <button class="btn"><i class="fas fa-plus"></i></button>
+                      <button class="btn"><i class="fas fa-minus"></i></button>
+                    </div>
+                  </div>
+                  <div class="ml-1">
+                    <button class="btn btn-sm text-danger"><i class="fas fa-trash"></i></button>
+                  </div>
+                </li>
+              @endforeach
+              </ul>
+            </div>
+          </div>
+
         </div>
       @endif
 
