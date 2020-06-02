@@ -71,8 +71,11 @@ Route::group(['middleware' => 'auth'], function () {
         // Cashier
         Route::get('/cashier', 'CashierController@index')->name('cashier');
         // Cart
-        Route::get('/cart', 'CashierController@cart')->name('cart');
-        Route::post('/cart/{product}', 'CashierController@store')->name('cart.store');
+        Route::get('/cart', 'CartController@index')->name('cart');
+        Route::post('/cart/{product}', 'CartController@store')->name('cart.store');
+        Route::get('/cart/add/{cart}', 'CartController@addQty')->name('cart.add-qty');
+        Route::get('/cart/min/{cart}', 'CartController@minQty')->name('cart.min-qty');
+        Route::delete('/cart/{cart}', 'CartController@delete')->name('cart.delete');
     });
     
 });

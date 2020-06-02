@@ -8,6 +8,36 @@
 
     $('.cart').addClass('active')
 
+    $('.btn-add-qty').click(function() {
+      $.ajax({
+        url: $(this).data('route'),
+        method: 'GET',
+        dataType: 'JSON',
+        success: (res) => {
+          console.log(res)
+          $('#' + $(this).data('id') + '-text-qty').html('Qty: ' + res)
+        }
+      })
+    })
+
+    $('.btn-min-qty').click(function() {
+      $.ajax({
+        url: $(this).data('route'),
+        method: 'GET',
+        dataType: 'JSON',
+        success: (res) => {
+          $('#' + $(this).data('id') + '-text-qty').html('Qty: ' + res)
+        },
+        error: (res) => {
+          Swal.fire({
+            title: 'ERROR',
+            text: res.responseJSON,
+            icon: 'error'
+          })
+        }
+      })
+    })
+
   })
 </script>
 @endsection
@@ -37,40 +67,47 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="container-fluid">
+    <div class="container">
 
-      @if (session('cart'))       
-        <div class="row">
+      <div class="row mt-4">
+        @if (session('cart'))       
 
           <div class="col-12">
             <div class="card">
               <ul class="list-group">
               @foreach (session('cart') as $cart)
-                <li class="list-group-item d-flex justify-content-between align-items-center" style="border:none">
+                <li class="list-group-item py-3 d-flex justify-content-between align-items-center" style="border:none">
                   <div>
                     {{ $cart['name'] }}
                     <small class="d-block text-muted">Price : Rp {{ number_format($cart['price']) }}</small>
                   </div>
                   <div class="text-muted ml-auto">
-                    <small>Qty: {{ $cart['qty'] }}</small>
+                    <small class="font-weight-bold" id="{{ $cart['id'] }}-text-qty">Qty: {{ $cart['qty'] }}</small>
                   </div>
                   <div class="ml-1">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                      <button class="btn"><i class="fas fa-plus"></i></button>
-                      <button class="btn"><i class="fas fa-minus"></i></button>
+                      <button class="btn btn-primary btn-add-qty" data-id={{ $cart['id'] }} data-route={{ route('cart.add-qty', $cart['id']) }}><i class="fas fa-plus"></i></button>
+                      <button class="btn btn-primary btn-min-qty" data-id={{ $cart['id'] }} data-route={{ route('cart.min-qty', $cart['id']) }}><i class="fas fa-minus"></i></button>
+                      <button class="btn btn-default text-danger" data-route={{ route('cart.delete', $cart['id']) }}><i class="fas fa-trash"></i></button>
                     </div>
-                  </div>
-                  <div class="ml-1">
-                    <button class="btn btn-sm text-danger"><i class="fas fa-trash"></i></button>
                   </div>
                 </li>
               @endforeach
               </ul>
             </div>
           </div>
+          
+          @else
 
+          <div class="col-12">
+            <div class="h1 text-center text-muted d-block" style="position:relative; top:100px">
+              <i class="fas fa-shopping-cart fa-lg"></i>
+              <p>Oops! Empty Cart</p>
+            </div>
+          </div>
+
+          @endif
         </div>
-      @endif
 
     </div>
 
