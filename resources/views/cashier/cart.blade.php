@@ -38,15 +38,15 @@
       })
     })
 
-    $('.btn-delete-cart').click(function(evt) {
-      evt.preventDefault()
+    $('.btn-delete-cart').click(function() {
+      let action = $(this).data('route')
       Swal.fire({
         title: 'Konfirmasi',
         text: 'Yakin Hapus Barang?',
         icon: 'warning',
         showCancelButton: true
       }).then((res) => {
-        res.value ? $(this).parent().submit() : false
+        res.value ? $('.form-delete').attr('action', action).submit() : false
       })
     })
 
@@ -102,9 +102,7 @@
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                       <button class="btn btn-primary btn-add-qty" data-id={{ $cart['id'] }} data-route={{ route('cart.add-qty', $cart['id']) }}><i class="fas fa-plus"></i></button>
                       <button class="btn btn-primary btn-min-qty" data-id={{ $cart['id'] }} data-route={{ route('cart.min-qty', $cart['id']) }}><i class="fas fa-minus"></i></button>
-                      <form action={{ route('cart.delete', $cart['id']) }} method="POST" class="d-inline">
-                        @csrf @method('DELETE') <button class="btn btn-default text-danger btn-delete-cart"><i class="fas fa-trash"></i></button>
-                      </form>
+                      <button data-route={{ route('cart.delete', $cart['id']) }} class="btn btn-default text-danger btn-delete-cart"><i class="fas fa-trash"></i></button>
                     </div>
                   </div>
                 </li>
@@ -112,6 +110,8 @@
               </ul>
             </div>
           </div>
+
+          <form action="" method="POST" class="d-none form-delete">@csrf @method('DELETE')</form>
           
           @else
 
