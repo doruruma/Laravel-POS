@@ -33,6 +33,24 @@ class CartController extends Controller
         return response()->json($cart[$id]['qty']);
     }
 
+    public function delete($id)
+    {
+        $cart = session()->get('cart');
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+            return redirect(route('cart'))->with([
+                'type' => 'success',
+                'message' => 'Berhasil Menghapus Barang'
+            ]);
+        } else {
+            return redirect(route('cart'))->with([
+                'type' => 'error',
+                'message' => 'Data Tidak Valid'
+            ]);
+        }
+    }
+
     public function store($id)
     {
         $product = Product::find($id);

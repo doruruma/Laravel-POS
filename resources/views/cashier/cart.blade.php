@@ -38,6 +38,18 @@
       })
     })
 
+    $('.btn-delete-cart').click(function(evt) {
+      evt.preventDefault()
+      Swal.fire({
+        title: 'Konfirmasi',
+        text: 'Yakin Hapus Barang?',
+        icon: 'warning',
+        showCancelButton: true
+      }).then((res) => {
+        res.value ? $(this).parent().submit() : false
+      })
+    })
+
   })
 </script>
 @endsection
@@ -45,6 +57,8 @@
 @section('content')
 <!-- Content Wrapper -->
 <div class="content-wrapper">
+
+  <div class="swal" data-type="{{ Session::get('type') }}" data-message="{{ Session::get('message') }}"></div>
 
   <!-- Content Header -->
   <section class="content-header">
@@ -88,7 +102,9 @@
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                       <button class="btn btn-primary btn-add-qty" data-id={{ $cart['id'] }} data-route={{ route('cart.add-qty', $cart['id']) }}><i class="fas fa-plus"></i></button>
                       <button class="btn btn-primary btn-min-qty" data-id={{ $cart['id'] }} data-route={{ route('cart.min-qty', $cart['id']) }}><i class="fas fa-minus"></i></button>
-                      <button class="btn btn-default text-danger" data-route={{ route('cart.delete', $cart['id']) }}><i class="fas fa-trash"></i></button>
+                      <form action={{ route('cart.delete', $cart['id']) }} method="POST" class="d-inline">
+                        @csrf @method('DELETE') <button class="btn btn-default text-danger btn-delete-cart"><i class="fas fa-trash"></i></button>
+                      </form>
                     </div>
                   </div>
                 </li>

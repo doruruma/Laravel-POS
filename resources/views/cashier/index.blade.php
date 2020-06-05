@@ -31,6 +31,8 @@
 <!-- Content Wrapper -->
 <div class="content-wrapper">
 
+  <div class="swal" data-type="{{ Session::get('type') }}" data-message="{{ Session::get('message') }}"></div>
+  
   <!-- Content Header -->
   <section class="content-header">
     <div class="container-fluid">
