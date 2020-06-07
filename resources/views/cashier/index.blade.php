@@ -8,13 +8,12 @@
 
     $('.cashier').addClass('active')
 
-    $('.btn-add-cart').click(function(evt) {
-      evt.preventDefault()
+    $('.btn-add-cart').click(function() {
       $.ajax({
-        url: $(this).parent().attr('action'),
+        url: $(this).data('route'),
         data: $(this).parent().serialize(),
         dataType: 'JSON',
-        method: 'POST',
+        method: 'GET',
         success: function(res) {
           $('.toast').toast('show')
           $('.toast-body').html(res.message)
@@ -38,7 +37,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Dashboard</h1>
+          <h1>Item Transaction</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -54,29 +53,35 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="container-fluid">
+    <div class="container">
 
-      @foreach ($categories as $category)
-        <div class="h5">{{ $category->name }}</div>
-        <div class="row">
-          @foreach ($category->products as $product)
-          <div class="col-lg-3 col-md-4 col-sm-4">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-block">{{ $product->name }}</div>
-                <small class="text-muted">Rp {{ number_format($product->price, 0, '.', ",") }}</small>
-              </div>
-              <div class="card-footer" style="height:50px; background:#fff">
-                <form action={{ route('cart.store', $product->id) }} method="post" class="d-inline">
-                  @csrf <button class="btn btn-sm btn-default text-success btn-add-cart"><i class="fas fa-cart-plus"></i></button>
-                </form>
-                <button class="btn btn-sm btn-default text-info btn-checkout"><i class="fas fa-check"></i></button>
-              </div>
+      <div class="row">
+
+        <div class="col-12">
+          <div class="card shadow-none">
+            <div class="card-body">
+              <ul class="list-group">
+                @foreach ($products as $product)
+                  <li class="list-group-item py-3 d-flex justify-content-between align-items-center" style="border:none">
+                    <div>
+                      {{ $product->name }}
+                      <small class="d-block text-muted">Rp {{ number_format($product->price) }}</small>
+                      <small class="text-muted font-weight-bold">{{ $product->category->name }}</small>
+                    </div>
+                    <div class="ml-5">
+                      <div class="btn-group btn-group-sm" role="group" aria-label="Action">
+                        <button class="btn btn-sm btn-default text-success btn-add-cart" data-route={{ route('cart.store', $product->id) }}><i class="fas fa-cart-plus"></i></button>
+                        <button class="btn btn-sm btn-default text-info btn-checkout"><i class="fas fa-check"></i></button>
+                      </div>
+                    </div>
+                  </li>
+                @endforeach  
+              </ul>
             </div>
           </div>
-          @endforeach
         </div>
-      @endforeach
+
+      </div>
 
     </div>
 
