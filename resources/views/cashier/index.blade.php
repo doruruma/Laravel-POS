@@ -15,8 +15,14 @@
         dataType: 'JSON',
         method: 'GET',
         success: function(res) {
-          $('.toast').toast('show')
-          $('.toast-body').html(res.message)
+          Swal.fire({
+            position: 'top-end',
+            toast: true,
+            timerProgressBar: true,
+            timer: 1500,
+            text: res.message,
+            icon: 'success'
+          })
           console.log(res)
         }
       })      
@@ -87,19 +93,6 @@
 
   </section>
   <!-- /.Main content -->
-  
-  <!-- Toast -->
-  <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000" style="position: absolute; top: 10px; right: 10px; z-index:9999">
-    <div class="toast-header">
-      <i class="mr-2 fas fa-bell text-info"></i>
-      <strong class="mr-5">Operation Successfull</strong>
-      <i class="fas fa-check text-info"></i>
-    </div>
-    <div class="toast-body">
-      Item(s) successfully added to cart
-    </div>
-  </div>
-  <!-- /.Toast -->
 
 </div>
 <!-- /.content-wrapper -->
