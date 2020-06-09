@@ -10,7 +10,14 @@ class CartController extends Controller
 
     public function index()
     {
-        return view('cashier.cart');
+        $total = 0;
+        $cart = session()->get('cart');
+        if ($cart) {
+            foreach ($cart as $c) {
+                $total += ($c['price'] * $c['qty']);
+            }
+        }
+        return view('cashier.cart', compact('total'));
     }
 
     public function addQty($id)
