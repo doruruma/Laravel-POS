@@ -28,6 +28,10 @@
       })      
     })
 
+    $('.btn-checkout').click(function() {
+
+    })
+
   })
 </script>
 @endsection
@@ -77,7 +81,7 @@
                     <div class="ml-5">
                       <div class="btn-group btn-group-sm" role="group" aria-label="Action">
                         <button class="btn btn-sm btn-default text-success btn-add-cart" data-route={{ route('cart.store', $product->id) }}><i class="fas fa-cart-plus"></i></button>
-                        <button class="btn btn-sm btn-default text-info btn-checkout"><i class="fas fa-check"></i></button>
+                        <button class="btn btn-sm btn-default text-info btn-checkout" data-toggle="modal" data-target="#modalCheckout"><i class="fas fa-check"></i></button>
                       </div>
                     </div>
                   </li>
@@ -90,6 +94,49 @@
       </div>
 
     </div>
+
+    {{-- Checkout Modal --}}
+    <div class="modal fade" id="modalCheckout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header" style="border:none">
+            <h5 class="modal-title" id="exampleModalLabel">Customer Data</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body px-5">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="text" name="email" id="email" class="form-control form-control-sm">
+              <small class="text-danger email-error"></small>
+            </div>
+            <div class="customer-form d-none">
+              <hr>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" class="form-control form-control-sm">
+                <small class="text-danger name-error"></small>
+              </div>
+              <div class="form-group">
+                <label for="address">Address</label>
+                <textarea name="address" id="address" rows="5" class="form-control" style="resize:none"></textarea>
+                <small class="text-danger address-error"></small>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" name="phone" id="phone" class="form-control form-control-sm">
+                <small class="text-danger phone-error"></small>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer" style="border:none">
+            <button type="button" class="btn btn-sm btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{-- ./Checkout Modal --}}
 
   </section>
   <!-- /.Main content -->

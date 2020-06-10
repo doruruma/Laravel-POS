@@ -142,12 +142,14 @@
 
             <hr>
             
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="text-muted">
-                Total : 
-              </div>
-              <div class="ml-auto text-muted total" data-total={{ $total }}>
-                Rp {{ number_format($total) }}
+            <div class="card shadow-none">
+              <div class="card-body d-flex justify-content-between align-items-center">
+                <div class="text-muted">
+                  Total : 
+                </div>
+                <div class="ml-auto text-muted total" data-total={{ $total }}>
+                  Rp {{ number_format($total) }}
+                </div>
               </div>
             </div>
 

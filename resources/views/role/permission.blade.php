@@ -53,7 +53,7 @@
 
             @csrf
 
-            <table class="table table-bordered">
+            <table class="table table-borderless">
               <thead class="text-muted">
                 <th>Menu</th>
                 <th class="text-center">Grant</th>
@@ -79,11 +79,8 @@
                 @endforeach
               </tbody>
             </table>
-            <button type="submit" class="mt-3 btn btn-primary">Save Changes</button>
+            <button type="submit" class="mt-3 btn btn-sm btn-primary">Save Changes</button>
           </form>
-        </div>
-        <div class="card-footer">
-          Footer
         </div>
       </div>
 
