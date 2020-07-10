@@ -2,6 +2,7 @@
 
 use App\Submenu;
 use Illuminate\Database\Seeder;
+use PhpParser\Node\Identifier;
 
 class SubmenuSeeder extends Seeder
 {
@@ -22,6 +23,7 @@ class SubmenuSeeder extends Seeder
             ['submenu' => 'Change Password', 'route' => 'profile.password', 'icon' => 'fas fa-lock', 'identifier' => 'password', 'menu_id' => 1, 'active' => 1],
             ['submenu' => 'Users List', 'route' => 'user', 'icon' => 'fas fa-users', 'identifier' => 'user', 'menu_id' => 2, 'active' => 1],
             ['submenu' => 'Role', 'route' => 'role', 'icon' => 'fas fa-cogs', 'identifier' => 'role', 'menu_id' => 2, 'active' => 1],
+            ['submenu' => 'Customers List', 'route' => 'customer', 'icon' => 'fas fa-users', 'identifier' => 'customer', 'menu_id' => 3, 'active' => 1],
             ['submenu' => 'Categories', 'route' => 'category', 'icon' => 'fas fa-th', 'identifier' => 'category', 'menu_id' => 4, 'active' => 1],
             ['submenu' => 'Products', 'route' => 'product', 'icon' => 'fas fa-file', 'identifier' => 'product', 'menu_id' => 4, 'active' => 1],
             ['submenu' => 'Cashier Transaction', 'route' => 'cashier', 'icon' => 'fas fa-cash-register', 'identifier' => 'cashier', 'menu_id' => 5, 'active' => 1],

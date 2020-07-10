@@ -20,7 +20,7 @@ class MenuSeeder extends Seeder
         $menus = [
             ['menu' => 'Profile'],
             ['menu' => 'Users Management'],
-            ['menu' => 'Menu Management'],
+            ['menu' => 'Customers'],
             ['menu' => 'POS Management'],
             ['menu' => 'Cashier']
         ];

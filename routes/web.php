@@ -35,6 +35,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('/profile', 'ProfileController@updateProfile')->name('profile.update-profile');
     Route::patch('/profile/password', 'ProfileController@updatePassword')->name('profile.update-password');
 
+    // Customers
+    Route::get('/customers', 'CustomerController@index')->name('customer');
+    Route::delete('/customers/{customer}', 'CustomerController@delete')->name('customer.delete');
+
 
     Route::group(['middleware' => 'admin'], function () {
         // Users
