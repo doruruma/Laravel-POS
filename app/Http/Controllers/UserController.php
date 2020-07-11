@@ -56,7 +56,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors());
         }
-        $user = User::where('id', $id)->update([
+        User::where('id', $id)->update([
             'role_id' => $req->role_id
         ]);
     }

@@ -73,6 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
         // Customers
         Route::get('/customers', 'CustomerController@index')->name('customer');
         Route::post('/customers/store', 'CustomerController@store')->name('customer.store');
+        Route::post('/customers/{customer}', 'CustomerController@update')->name('customer.update');
         Route::delete('/customers/{customer}', 'CustomerController@delete')->name('customer.delete');
 
         // Cart

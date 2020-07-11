@@ -26,6 +26,9 @@ Route::get('/products/{product}', 'ProductController@get');
 // Users
 Route::get('/users/{user}', 'UserController@get');
 
+// 
+Route::get('/customers/{customer}', 'CustomerController@get');
+
 // Roles
 Route::get('/roles/{role}', 'RoleController@get');
 

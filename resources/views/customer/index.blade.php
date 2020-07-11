@@ -22,13 +22,16 @@
 
     $('.btn-edit').click(function() {
       $('#form-edit .text-danger').html('')
-      $('#form-edit').attr('action', '/users/' + $(this).data('id'))
+      $('#form-edit').attr('action', '/customers/' + $(this).data('id'))
       $.ajax({
-        url: '/api/users/' + $(this).data('id'),
+        url: '/api/customers/' + $(this).data('id'),
         method: 'GET',
         dataType: 'JSON',
         success: function(res) {
-          $('#modal-edit #role').val(res.role_id)
+          $('#modal-edit #name').val(res.name)
+          $('#modal-edit #email').val(res.email)
+          $('#modal-edit #address').val(res.address)
+          $('#modal-edit #phone').val(res.phone)
         }
       })
     })
@@ -45,13 +48,15 @@
             text: 'Berhasil Update Data',
             icon: 'success'
           }).then((res) => {
-            document.location.href = '/users'
+            document.location.href = '/customers'
           })
         },
         error: function(res) {
           if (res.status == 422) {
             $('#form-edit .name-error').html(res.responseJSON.name)
-            $('#form-edit .description-error').html(res.responseJSON.description)
+            $('#form-edit .email-error').html(res.responseJSON.email)
+            $('#form-edit .address-error').html(res.responseJSON.address)
+            $('#form-edit .phone-error').html(res.responseJSON.phone[0])
           }
         }
       })
@@ -77,7 +82,6 @@
           })
         },
         error: function(res) {
-            console.log(res)
           if (res.status == 422) {
             $('#form-create .name-error').html(res.responseJSON.name)
             $('#form-create .email-error').html(res.responseJSON.email)
@@ -182,7 +186,41 @@
           </button>
         </div>
         <div class="modal-body">
+          <div class="px-5">
+            <form action="" method="POST" id="form-edit">
+            
+              @csrf
+
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" class="form-control" autocomplete="off">
+                <small class="text-danger name-error"></small>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" name="email" id="email" class="form-control" autocomplete="off">
+                <small class="text-danger email-error"></small>
+              </div>
+
+              <div class="form-group">
+                <label for="address">Address</label>
+                <textarea name="address" id="address" class="form-control" rows="6" style="resize:none"></textarea>
+                <small class="text-danger address-error"></small>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" name="phone" id="phone" class="form-control" autocomplete="off">
+                <small class="text-danger phone-error"></small>
+              </div>
+
+          </div>
         </div>
+        <div class="modal-footer" style="border:none">
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+        </form>
       </div>
     </div>
   </div>

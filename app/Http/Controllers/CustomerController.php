@@ -15,6 +15,11 @@ class CustomerController extends Controller
         return view('customer.index', compact('customers'));
     }
 
+    public function get($customer)
+    {
+        return response()->json(Customer::findOrFail($customer));
+    }
+
     public function store(Request $req)
     {
         $validator = Validator::make($req->all(), [
@@ -32,6 +37,26 @@ class CustomerController extends Controller
         $customer->address = $req->address;
         $customer->phone = $req->phone;
         $customer->save();
+    }
+
+    public function update(Request $req, $id)
+    {
+        $validator = Validator::make($req->all(), [
+            'name' => 'required|min:3',
+            'email' => 'required|email',
+            'address' => 'required|min:4',
+            'phone' => 'required|numeric:min:11'
+        ]);
+        if($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+        Customer::whereId($id)->update([
+            'name' => $req->name,
+            'email' => $req->email,
+            'address' => $req->address,
+            'phone' => $req->phone
+        ]);
+        
     }
 
     public function delete(Customer $customer)
