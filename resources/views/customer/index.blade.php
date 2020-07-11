@@ -73,15 +73,16 @@
             text: 'Berhasil Tambah Data',
             icon: 'success'
           }).then((res) => {
-            document.location.href = '/users'
+            document.location.href = '/customers'
           })
         },
         error: function(res) {
+            console.log(res)
           if (res.status == 422) {
             $('#form-create .name-error').html(res.responseJSON.name)
             $('#form-create .email-error').html(res.responseJSON.email)
-            $('#form-create .password-error').html(res.responseJSON.password)
-            $('#form-create .role-error').html(res.responseJSON.role)
+            $('#form-create .address-error').html(res.responseJSON.address)
+            $('#form-create .phone-error').html(res.responseJSON.phone[0])
           }
         }
       })
@@ -121,7 +122,7 @@
     <div class="container-fluid">
 
       <div class="d-flex mb-2">
-        <button class="btn mx-1 btn-create btn-sm btn-primary" data-toggle="modal" data-target="#modal-create">Add User</button>
+        <button class="btn mx-1 btn-create btn-sm btn-primary" data-toggle="modal" data-target="#modal-create">Register New Customers</button>
         <button class="btn px-3 mx-1 btn-sm btn-primary"><i class="fas fa-print"></i></button>
       </div>
 
@@ -172,10 +173,10 @@
 
   <!-- Edit Modal -->
   <div class="modal fade" id="modal-edit" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header" style="border:none">
-          <h5 class="modal-title">Change Role</h5>
+          <h5 class="modal-title">Edit the customer data</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -192,18 +193,16 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header" style="border:none">
-          <h5 class="modal-title">Add Customer</h5>
+          <h5 class="modal-title">Register Customer</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="px-5">
-            <form action={{ route('user.store') }} method="POST" id="form-create">
+            <form action={{ route('customer.store') }} method="POST" id="form-create">
             
               @csrf
-
-              <input type="hidden" name="image" value="default_profile.png">
 
               <div class="form-group">
                 <label for="name">Name</label>
@@ -218,9 +217,15 @@
               </div>
 
               <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="form-control">
-                <small class="text-danger password-error"></small>
+                <label for="address">Address</label>
+                <textarea name="address" id="address" class="form-control" rows="6" style="resize:none"></textarea>
+                <small class="text-danger address-error"></small>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" name="phone" id="phone" class="form-control" autocomplete="off">
+                <small class="text-danger phone-error"></small>
               </div>
 
           </div>

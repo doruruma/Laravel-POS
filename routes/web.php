@@ -35,11 +35,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('/profile', 'ProfileController@updateProfile')->name('profile.update-profile');
     Route::patch('/profile/password', 'ProfileController@updatePassword')->name('profile.update-password');
 
-    // Customers
-    Route::get('/customers', 'CustomerController@index')->name('customer');
-    Route::delete('/customers/{customer}', 'CustomerController@delete')->name('customer.delete');
-
-
     Route::group(['middleware' => 'admin'], function () {
         // Users
         Route::get('/users', 'UserController@index')->name('user');
@@ -74,6 +69,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'cashier'], function () {
         // Cashier
         Route::get('/cashier', 'CashierController@index')->name('cashier');
+
+        // Customers
+        Route::get('/customers', 'CustomerController@index')->name('customer');
+        Route::post('/customers/store', 'CustomerController@store')->name('customer.store');
+        Route::delete('/customers/{customer}', 'CustomerController@delete')->name('customer.delete');
+
         // Cart
         Route::get('/cart', 'CartController@index')->name('cart');
         Route::get('/cart/{product}', 'CartController@store')->name('cart.store');

@@ -30,7 +30,9 @@ class AccessSeeder extends Seeder
             ['role_id' => '2', 'menu_id' => '4'],
             // Cashier
             ['role_id' => '3', 'menu_id' => '1'],
+            ['role_id' => '3', 'menu_id' => '3'],
             ['role_id' => '3', 'menu_id' => '5']
+            
         ];
         foreach ($accesses as $access) {
             Access::create($access);
