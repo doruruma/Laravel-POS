@@ -164,6 +164,7 @@
                 @endforeach
             </tbody>
           </table>
+          {{ $customers->links() }}
         </div>
         <div class="card-footer">
           Footer

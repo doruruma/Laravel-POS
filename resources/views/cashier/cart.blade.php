@@ -153,6 +153,8 @@
               </div>
             </div>
 
+            <button class="btn btn-success btn-block btn-lg">Checkout</button>
+
           </div>
 
           <form action="" method="POST" class="d-none form-delete">@csrf @method('DELETE')</form>
