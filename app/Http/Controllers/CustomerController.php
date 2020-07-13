@@ -15,6 +15,14 @@ class CustomerController extends Controller
         return view('customer.index', compact('customers'));
     }
 
+    public function search(Request $req)
+    {
+        $searchKey = $req->searchKey;
+        $result = Customer::where('name', 'like', '%'. $searchKey . '%')
+            ->where('email', 'like', '%'. $searchKey . '%')->get();
+        return view('cashier.customerList', compact('result'));
+    }
+
     public function get($customer)
     {
         return response()->json(Customer::findOrFail($customer));
@@ -47,7 +55,7 @@ class CustomerController extends Controller
             'address' => 'required|min:4',
             'phone' => 'required|numeric:min:11'
         ]);
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
         Customer::whereId($id)->update([
@@ -56,7 +64,6 @@ class CustomerController extends Controller
             'address' => $req->address,
             'phone' => $req->phone
         ]);
-        
     }
 
     public function delete(Customer $customer)

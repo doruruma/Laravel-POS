@@ -23,13 +23,19 @@
             text: res.message,
             icon: 'success'
           })
-          console.log(res)
         }
       })      
     })
 
-    $('.btn-checkout').click(function() {
-
+    $('#inputSearchCustomer').keyup(function() {
+      $.ajax({
+        url: $(this).data('route'),
+        method: 'GET',
+        data: { searchKey: $(this).val() },
+        success: function(res) {
+          $('.customers-list-group').html(res)
+        }
+      })
     })
 
   })
@@ -123,16 +129,18 @@
               
               <div class="tab-pane fade show active" id="existingCustomer" role="tabpanel">
                 <div class="form-group mt-5">
-                  <input type="text" name="search" id="search" class="form-control form-control-sm" placeholder="Search ...">
+                  <input type="text" name="search" id="inputSearchCustomer" data-route={{ route('customer.search') }} class="form-control form-control-sm" placeholder="Search ...">
                   <small class="text-danger search-error"></small>
                 </div>
-                <div class="list-group">
-                  @foreach ($customers as $customer)
-                    <a href="#" class="list-group-item list-group-item-action" style="">
-                      {{ $customer->email }} <br>
-                      <small>{{ $customer->name }} - {{ $customer->phone }}</small>
-                    </a>
-                  @endforeach
+                <div class="customers-list-group">
+                  <div class="list-group">
+                    @foreach ($customers as $customer)
+                      <a href="#" class="list-group-item list-group-item-action" style="">
+                        {{ $customer->email }} <br>
+                        <small>{{ $customer->name }} - {{ $customer->phone }}</small>
+                      </a>
+                    @endforeach
+                  </div>
                 </div>
               </div>
 

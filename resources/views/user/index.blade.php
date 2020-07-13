@@ -38,6 +38,7 @@
       $.ajax({
         url: $(this).attr('action'),
         data: $(this).serialize(),
+        dataType: 'JSON',
         method: 'POST',
         success: function(res) {
           Swal.fire({
@@ -50,8 +51,7 @@
         },
         error: function(res) {
           if (res.status == 422) {
-            $('#form-edit .name-error').html(res.responseJSON.name)
-            $('#form-edit .description-error').html(res.responseJSON.description)
+            console.log(res.role)
           }
         }
       })
@@ -66,6 +66,7 @@
       $.ajax({
         url: $(this).attr('action'),
         data: $(this).serialize(),
+        dataType: 'JSON',
         method: 'POST',
         success: function(res) {
           Swal.fire({
