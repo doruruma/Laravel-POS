@@ -6,10 +6,10 @@
 <script>
   $(document).ready(function() {
 
-    $('.customer').addClass('active');
+    $('.customer').addClass('active')
 
     $('.btn-delete').click(function(evt) {
-      evt.preventDefault();
+      evt.preventDefault()
       Swal.fire({
         title: 'Konfirmasi',
         text: 'Yakin Hapus Data?',

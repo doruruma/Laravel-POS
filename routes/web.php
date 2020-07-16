@@ -44,11 +44,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Roles
         Route::get('/roles', 'RoleController@index')->name('role');
-        Route::get('/roles/permission/{roles}', 'RoleController@permission')->name('role.permission');
-        Route::post('/roles/permission/{roles}', 'RoleController@updatePermission')->name('role.update-permission');
+        Route::get('/roles/permission/{role}', 'RoleController@permission')->name('role.permission');
+        Route::post('/roles/permission/{role}', 'RoleController@updatePermission')->name('role.update-permission');
         Route::post('/roles/store', 'RoleController@store')->name('role.store');
-        Route::post('/roles/{roles}', 'RoleController@update')->name('role.update');
-        Route::delete('/roles/{roles}', 'RoleController@delete')->name('role.delete');
+        Route::post('/roles/{role}', 'RoleController@update')->name('role.update');
+        Route::delete('/roles/{role}', 'RoleController@delete')->name('role.delete');
     });
 
     Route::group(['middleware' => 'user'], function () {

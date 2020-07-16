@@ -20,8 +20,9 @@ class MenuSeeder extends Seeder
         $menus = [
             ['menu' => 'Profile'],
             ['menu' => 'Users Management'],
-            ['menu' => 'Customers'],
+            ['menu' => 'Supplier'],
             ['menu' => 'POS Management'],
+            ['menu' => 'Customers'],
             ['menu' => 'Cashier']
         ];
         foreach ($menus as $menu) {

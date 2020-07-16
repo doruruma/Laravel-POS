@@ -13,7 +13,7 @@ class RoleController extends Controller
 
     public function index()
     {
-        $roles = Role::without('accesses')->get();
+        $roles = Role::without('accesses')->paginate(4);
         return view('role.index', compact('roles'));
     }
 
