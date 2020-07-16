@@ -27,6 +27,7 @@
       })      
     })
 
+    // Ajax search Product
     $('#inputSearchItem').keyup(function() {
       $.ajax({
         url: $(this).data('route'),
@@ -37,6 +38,7 @@
         }
       })
     })
+    // Ajax search Product
 
     // Ajax search Customer
     $('#inputSearchCustomer').keyup(function() {
@@ -45,7 +47,7 @@
         method: 'GET',
         data: { searchKey: $(this).val() },
         success: function(res) {
-          $('.customers-list-group').html(res)
+          $('.customer-list').html(res)
         }
       })
     })

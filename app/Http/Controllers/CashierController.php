@@ -36,7 +36,7 @@ class CashierController extends Controller
     {
         $searchKey = $req->searchKey;
         $result = Customer::where('name', 'like', '%' . $searchKey . '%')
-            ->where('email', 'like', '%' . $searchKey . '%')->get();
+            ->where('email', 'like', '%' . $searchKey . '%')->paginate(3);
         return view('cashier.customerList', compact('result'));
     }
 
