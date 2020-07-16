@@ -8,7 +8,7 @@
 
     $('.cashier').addClass('active')
 
-    $('.btn-add-cart').click(function() {
+    $(document).on('click', '.btn-add-cart', function() {
       console.log($(this).parent().serialize())
       $.ajax({
         url: $(this).data('route'),
@@ -27,6 +27,18 @@
       })      
     })
 
+    $('#inputSearchItem').keyup(function() {
+      $.ajax({
+        url: $(this).data('route'),
+        method: 'GET',
+        data: { searchKey: $(this).val() },
+        success: function(res) {
+          $('.product-list').html(res)
+        }
+      })
+    })
+
+    // Ajax search Customer
     $('#inputSearchCustomer').keyup(function() {
       $.ajax({
         url: $(this).data('route'),
@@ -37,6 +49,31 @@
         }
       })
     })
+    // End Ajax search Customer
+
+    // Product ajax paginate
+    $(document).on('click', '.product-paginate .pagination a', function(evt) {
+      fetchData(evt, '/cashier/paginate-product?page=', $(this).attr('href').split('page=')[1], '.product-list')
+    })
+    // End Product ajax paginate
+
+    // Customer ajax paginate
+    $(document).on('click', '.customer-paginate .pagination a', function(evt) {
+      fetchData(evt, '/cashier/paginate-customer?page=', $(this).attr('href').split('page=')[1], '.customer-list')
+    })
+    // End Customer ajax paginate
+
+    function fetchData(evt, url, page, target) {
+      evt.preventDefault()
+      $.ajax({
+        url: url + page,
+        method: 'GET',
+        success: function(res) {
+          $(target).html(res)
+        }
+      })
+    }
+
 
   })
 </script>
@@ -74,27 +111,42 @@
       <div class="row">
 
         <div class="col-12">
+
           <div class="card shadow-none">
             <div class="card-body">
-              <ul class="list-group">
-                @foreach ($products as $product)
-                  <li class="list-group-item py-3 d-flex justify-content-between align-items-center" style="border:none">
-                    <div>
-                      {{ $product->name }}
-                      <small class="d-block text-muted">Rp {{ number_format($product->price) }}</small>
-                      <small class="text-muted font-weight-bold">{{ $product->category->name }}</small>
-                    </div>
-                    <div class="ml-5">
-                      <div class="btn-group btn-group-sm" role="group" aria-label="Action">
-                        <button class="btn btn-sm btn-default text-success btn-add-cart" data-route={{ route('cart.store', $product->id) }}><i class="fas fa-cart-plus"></i></button>
-                        <button class="btn btn-sm btn-default text-info btn-checkout" data-toggle="modal" data-target="#modalCheckout"><i class="fas fa-check"></i></button>
+
+              {{-- Input Search Item --}}
+              <div class="form-group mb-2">
+                <input type="text" name="search" id="inputSearchItem" data-route={{ route('product.search') }} class="form-control form-control-sm" placeholder="Search Item ...">
+              </div>
+              {{-- ./Input Search Item --}}
+
+              <hr>
+
+              <div class="product-list">
+                <ul class="list-group">
+                  @foreach ($products as $product)
+                    <li class="list-group-item py-3 d-flex justify-content-between align-items-center" style="border:none">
+                      <div>
+                        {{ $product->name }}
+                        <small class="d-block text-muted">Rp {{ number_format($product->price) }}</small>
+                        <small class="text-muted font-weight-bold">{{ $product->category->name }}</small>
                       </div>
-                    </div>
-                  </li>
-                @endforeach  
-              </ul>
+                      <div class="ml-5">
+                        <div class="btn-group btn-group-sm" role="group" aria-label="Action">
+                          <button class="btn btn-sm btn-default text-success btn-add-cart" data-route={{ route('cart.store', $product->id) }}><i class="fas fa-cart-plus"></i></button>
+                          <button class="btn btn-sm btn-default text-info btn-checkout" data-toggle="modal" data-target="#modalCheckout"><i class="fas fa-check"></i></button>
+                        </div>
+                      </div>
+                    </li>
+                  @endforeach  
+                </ul>
+                <div class="product-paginate">{{ $products->links() }}</div>
+              </div>
+
             </div>
           </div>
+          
         </div>
 
       </div>
@@ -128,12 +180,15 @@
             <div class="tab-content" id="tab-content">
               
               <div class="tab-pane fade show active" id="existingCustomer" role="tabpanel">
+
+                {{-- Input Search Customer --}}
                 <div class="form-group mt-5">
                   <input type="text" name="search" id="inputSearchCustomer" data-route={{ route('customer.search') }} class="form-control form-control-sm" placeholder="Search ...">
-                  <small class="text-danger search-error"></small>
                 </div>
-                <div class="customers-list-group">
-                  <div class="list-group">
+                {{-- ./Input Search Customer --}}
+
+                <div class="customer-list">
+                  <div class="list-group mb-2">
                     @foreach ($customers as $customer)
                       <a href="#" class="list-group-item list-group-item-action" style="">
                         {{ $customer->email }} <br>
@@ -141,10 +196,13 @@
                       </a>
                     @endforeach
                   </div>
+                  <div class="customer-paginate">{{ $customers->links() }}</div>
                 </div>
+
               </div>
 
               <div class="tab-pane fade" id="newCustomer" role="tabpanel">
+
                 <div class="form-group mt-5">
                   <label for="email">Email</label>
                   <input type="text" name="email" id="email" class="form-control form-control-sm">
@@ -165,6 +223,7 @@
                   <input type="text" name="phone" id="phone" class="form-control form-control-sm">
                   <small class="text-danger phone-error"></small>
                 </div>
+
               </div>
 
             </div>
