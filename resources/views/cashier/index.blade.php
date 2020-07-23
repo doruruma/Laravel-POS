@@ -8,6 +8,7 @@
 
     $('.cashier').addClass('active')
 
+    // Add Cart
     $(document).on('click', '.btn-add-cart', function() {
       console.log($(this).parent().serialize())
       $.ajax({
@@ -26,6 +27,42 @@
         }
       })      
     })
+    // End Add Cart
+
+    // New Customer Form
+    $('#form-create').submit(function(evt) {
+      evt.preventDefault()
+      $.ajax({
+        url: $(this).attr('action'),
+        data: $(this).serialize(),
+        method: 'POST',
+        success: function(res) {
+          Swal.fire({
+            title: 'SUCCESS',
+            text: 'Berhasil Tambah Data',
+            icon: 'success'
+          }).then((res) => {
+            document.location.href = '/customers'
+          })
+        },
+        error: function(res) {
+          if (res.status == 422) {
+            $('#form-create .name-error').html(res.responseJSON.name)
+            $('#form-create .email-error').html(res.responseJSON.email)
+            $('#form-create .address-error').html(res.responseJSON.address)
+            $('#form-create .phone-error').html(res.responseJSON.phone[0])
+          }
+        }
+      })
+    })
+    $('.modal').on('hide.bs.modal' ,function() {
+      $('#form-create .name-error').html('')
+      $('#form-create .email-error').html('')
+      $('#form-create .address-error').html('')
+      $('#form-create .phone-error').html('')
+    })
+    // End New Customer Form
+
 
     // Ajax search Product
     $('#inputSearchItem').keyup(function() {
@@ -38,7 +75,7 @@
         }
       })
     })
-    // Ajax search Product
+    // End Ajax search Product
 
     // Ajax search Customer
     $('#inputSearchCustomer').keyup(function() {
@@ -205,35 +242,39 @@
 
               <div class="tab-pane fade" id="newCustomer" role="tabpanel">
 
-                <div class="form-group mt-5">
-                  <label for="email">Email</label>
-                  <input type="text" name="email" id="email" class="form-control form-control-sm">
-                  <small class="text-danger email-error"></small>
-                </div>
-                <div class="form-group">
-                  <label for="name">Name</label>
-                  <input type="text" name="name" id="name" class="form-control form-control-sm">
-                  <small class="text-danger name-error"></small>
-                </div>
-                <div class="form-group">
-                  <label for="address">Address</label>
-                  <textarea name="address" id="address" rows="5" class="form-control" style="resize:none"></textarea>
-                  <small class="text-danger address-error"></small>
-                </div>
-                <div class="form-group">
-                  <label for="phone">Phone</label>
-                  <input type="text" name="phone" id="phone" class="form-control form-control-sm">
-                  <small class="text-danger phone-error"></small>
-                </div>
+                <form action={{ route('customer.store') }} method="POST" id="form-create">
+                  @csrf
+                  <div class="form-group mt-5">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email" class="form-control form-control-sm">
+                    <small class="text-danger email-error"></small>
+                  </div>
+                  <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" name="name" id="name" class="form-control form-control-sm">
+                    <small class="text-danger name-error"></small>
+                  </div>
+                  <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea name="address" id="address" rows="5" class="form-control" style="resize:none"></textarea>
+                    <small class="text-danger address-error"></small>
+                  </div>
+                  <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" name="phone" id="phone" class="form-control form-control-sm">
+                    <small class="text-danger phone-error"></small>
+                  </div>
+                  <hr>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-block btn-primary">Submit</button>
+                  </div>
+                </form>
 
               </div>
 
             </div>
             {{-- ./tab content --}}
 
-          </div>
-          <div class="modal-footer" style="border:none">
-            <button type="button" class="btn btn-sm btn-primary">Submit</button>
           </div>
         </div>
       </div>

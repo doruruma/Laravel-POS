@@ -103,7 +103,7 @@
 
       <div class="card">
         <div class="card-body">
-          <table class="table table-borderless">
+          <table class="table table-hover table-bordered">
             <thead>
               <tr>
                 <th>#</th>
@@ -137,6 +137,9 @@
                 @endforeach
             </tbody>
           </table>
+
+        {{ $products->links() }}
+
         </div>
         <div class="card-footer">
           Footer
