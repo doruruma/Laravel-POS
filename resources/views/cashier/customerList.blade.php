@@ -1,4 +1,4 @@
-@if ($result->isEmpty())
+@if ($customers->isEmpty())
     
   <div class="col-12">
     <div class="h1 text-center text-muted d-block" style="margin-top: 100px; margin-bottom: 100px">
@@ -10,7 +10,7 @@
 @else
 
   <div class="list-group mb-2">
-    @foreach ($result as $res)
+    @foreach ($customers as $res)
     <a href="#" class="list-group-item list-group-item-action" style="">
       {{ $res->email }} <br>
       <small>{{ $res->name }} - {{ $res->phone }}</small>
@@ -18,6 +18,6 @@
     @endforeach
   </div>
 
-  <div class="customer-paginate">{{ $result->links() }}</div>
+  <div class="customer-paginate">{{ $customers->links() }}</div>
 
 @endif

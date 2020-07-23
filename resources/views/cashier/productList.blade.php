@@ -1,4 +1,4 @@
-@if ($result->isEmpty())
+@if ($products->isEmpty())
     
   <div class="col-12">
     <div class="h1 text-center text-muted d-block" style="margin-top: 100px; margin-bottom: 100px">
@@ -10,7 +10,7 @@
 @else
 
   <ul class="list-group">
-    @foreach ($result as $product)
+    @foreach ($products as $product)
       <li class="list-group-item py-3 d-flex justify-content-between align-items-center" style="border:none">
         <div>
           {{ $product->name }}
@@ -27,6 +27,6 @@
     @endforeach  
   </ul>
 
-  <div class="product-paginate">{{ $result->links() }}</div>
+  <div class="product-paginate">{{ $products->links() }}</div>
 
 @endif

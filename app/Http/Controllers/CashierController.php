@@ -11,7 +11,7 @@ class CashierController extends Controller
 
     public function index()
     {
-        $customers = Customer::paginate(3);
+        $customers = Customer::paginate(4);
         $products = Product::with('category')->paginate(4);
         return view('cashier.index', compact('customers', 'products'));
     }
@@ -19,8 +19,8 @@ class CashierController extends Controller
     public function paginateProduct(Request $req)
     {
         if ($req->ajax()) { 
-            $result = Product::paginate(4);
-            return view('cashier.productList', compact('result'))->render();
+            $products = Product::paginate(4);
+            return view('cashier.productList', compact('products'))->render();
         }
     }
 
@@ -35,16 +35,16 @@ class CashierController extends Controller
     public function searchCustomer(Request $req)
     {
         $searchKey = $req->searchKey;
-        $result = Customer::where('name', 'like', '%' . $searchKey . '%')
-            ->where('email', 'like', '%' . $searchKey . '%')->paginate(3);
-        return view('cashier.customerList', compact('result'));
+        $customers = Customer::where('name', 'like', '%' . $searchKey . '%')
+            ->where('email', 'like', '%' . $searchKey . '%')->paginate(4);
+        return view('cashier.customerList', compact('customers'));
     }
 
     public function searchProduct(Request $req)
     {
         $searchKey = $req->searchKey;
-        $result = Product::where('name', 'like', '%' . $searchKey . '%')
+        $products = Product::where('name', 'like', '%' . $searchKey . '%')
             ->where('description', 'like', '%' . $searchKey . '%')->paginate(4);
-        return view('cashier.productList', compact('result'));
+        return view('cashier.productList', compact('products'));
     }
 }

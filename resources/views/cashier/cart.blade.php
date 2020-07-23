@@ -109,8 +109,8 @@
 
     <div class="container">
 
-      <div class="row mt-5">
-        @if (session('cart'))       
+      @if (session('cart')) 
+        <div class="row mt-5">
 
           <div class="col-12">
             <div class="h5 text-muted font-weight-light">Items in Cart</div>
@@ -158,18 +158,28 @@
           </div>
 
           <form action="" method="POST" class="d-none form-delete">@csrf @method('DELETE')</form>
+
+        </div>
           
           @else
 
-          <div class="col-12">
-            <div class="h1 text-center text-muted d-block" style="position:relative; top:100px">
-              <i class="fas fa-shopping-cart fa-lg"></i>
-              <p>Oops! Empty Cart</p>
+          <div class="row justify-content-center">
+
+            <div class="col-lg-12">
+              <div class="card shadow-none mt-5">
+                <div class="card-body">
+                  <div class="h1 text-center text-muted d-block" style="margin-top:120px; margin-bottom:120px">
+                    <i class="fas fa-shopping-cart fa-lg"></i>
+                    <p>Oops! Empty Cart</p>
+                  </div>
+                </div>
+              </div>
             </div>
+
           </div>
 
           @endif
-        </div>
+        
 
     </div>
 

@@ -40,7 +40,7 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="container-fluid">
+    <div class="container">
 
       <div class="card mb-5">
         <div class="card-body">
