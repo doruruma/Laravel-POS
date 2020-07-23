@@ -107,6 +107,7 @@
   <!-- Main content -->
   <section class="content">
 
+    <!-- Container -->
     <div class="container">
 
       @if (session('cart')) 
@@ -139,9 +140,7 @@
                 </ul>
               </div>
             </div>
-
             <hr>
-            
             <div class="card shadow-none">
               <div class="card-body d-flex justify-content-between align-items-center">
                 <div class="text-muted">
@@ -152,12 +151,12 @@
                 </div>
               </div>
             </div>
-
             <button class="btn btn-success btn-block btn-lg">Checkout</button>
-
           </div>
 
+          <!-- Delete Cart Form -->
           <form action="" method="POST" class="d-none form-delete">@csrf @method('DELETE')</form>
+          <!-- ./Delete Cart Form -->
 
         </div>
           
@@ -179,9 +178,9 @@
           </div>
 
           @endif
-        
 
     </div>
+    <!-- ./Container -->
 
   </section>
   <!-- /.Main content -->
