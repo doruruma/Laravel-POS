@@ -80,12 +80,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/cashier/search-product', 'CashierController@searchProduct')->name('product.search');
         Route::get('/cashier/search-customer', 'CashierController@searchCustomer')->name('customer.search');
 
-        // Customers
-        Route::get('/customers', 'CustomerController@index')->name('customer');
-        Route::post('/customers/store', 'CustomerController@store')->name('customer.store');
-        Route::post('/customers/{customer}', 'CustomerController@update')->name('customer.update');
-        Route::delete('/customers/{customer}', 'CustomerController@delete')->name('customer.delete');
-
         // Cart
         Route::get('/cart', 'CartController@index')->name('cart');
         Route::get('/cart/{product}', 'CartController@store')->name('cart.store');

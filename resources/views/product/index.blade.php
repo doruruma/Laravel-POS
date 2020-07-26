@@ -94,56 +94,60 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="container-fluid">
+    <div class="container">
 
-      <div class="d-flex mb-2">
-        <a href="{{ route('product.create') }}" class="btn mx-1 btn-sm btn-primary">Add Product</a>
-        <button class="btn px-3 mx-1 btn-sm btn-primary"><i class="fas fa-print"></i></button>
-      </div>
+      <div class="row">
 
-      <div class="card">
-        <div class="card-body">
-          <table class="table table-hover table-bordered">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Category</th>
-                <th>Stock</th>
-                <th>Price</th>
-                <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
-              </tr>
-            </thead>
-            <tbody>
-                @php $i = 1; @endphp
-                @foreach ($products as $product)
-                <tr>
-                  <th>{{ $i }}</th>
-                  <td>{{ $product->name }}</td>
-                  <td>{{ $product->description }}</td>
-                  <td>{{ $product->category->name }}</td>
-                  <td>{{ $product->stock }}</td>
-                  <td>Rp {{ number_format($product->price) }}</td>
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-edit text-info" data-id="{{ $product->id }}" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></button>
-                    <form action={{ route('product.delete', ['product' => $product]) }} method="POST" class="d-inline">
-                      @csrf @method('DELETE')
-                      <button class="btn btn-sm btn-delete text-danger"><i class="far fa-trash-alt"></i></button>
-                    </form>
-                  </td>
-                </tr>
-                @php $i++ @endphp
-                @endforeach
-            </tbody>
-          </table>
-
-        {{ $products->links() }}
-
+        <div class="col-12">
+          <div class="card" style="border-radius:0%">
+            <div class="card-header bg-light">
+              <div class="d-flex justify-content-between">
+                <a href="{{ route('product.create') }}" style="border-radius:0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-plus"></i> Add Product</a>
+                <button style="border-radius:0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="table table-hover table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Stock</th>
+                    <th>Price</th>
+                    <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    @php $i = 1; @endphp
+                    @foreach ($products as $product)
+                    <tr>
+                      <th>{{ $i }}</th>
+                      <td>{{ $product->name }}</td>
+                      <td>{{ $product->description }}</td>
+                      <td>{{ $product->category->name }}</td>
+                      <td>{{ $product->stock }}</td>
+                      <td>Rp {{ number_format($product->price) }}</td>
+                      <td class="text-center">
+                        <button class="btn btn-sm btn-edit text-info" data-id="{{ $product->id }}" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></button>
+                        <form action={{ route('product.delete', ['product' => $product]) }} method="POST" class="d-inline">
+                          @csrf @method('DELETE')
+                          <button class="btn btn-sm btn-delete text-danger"><i class="far fa-trash-alt"></i></button>
+                        </form>
+                      </td>
+                    </tr>
+                    @php $i++ @endphp
+                    @endforeach
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer">
+              {{ $products->links() }}
+            </div>
+          </div>
         </div>
-        <div class="card-footer">
-          Footer
-        </div>
+
       </div>
 
     </div>

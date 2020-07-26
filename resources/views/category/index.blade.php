@@ -119,14 +119,15 @@
 
     <div class="container">
 
-      <div class="d-flex mb-2">
-        <button class="btn mx-1 btn-create btn-sm btn-primary" data-toggle="modal" data-target="#modal-create">Add Category</button>
-        <button class="btn px-3 mx-1 btn-sm btn-primary"><i class="fas fa-print"></i></button>
-      </div>
-
-      <div class="card">
+      <div class="card" style="border-radius:0%">
+        <div class="card-header bg-light">
+          <div class="d-flex justify-content-between">
+            <button style="border-radius:0%" class="btn px-4 btn-create btn-sm btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Create New Category</button>
+            <button style="border-radius:0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button>
+          </div>
+        </div>
         <div class="card-body">
-          <table class="table table-borderless">
+          <table class="table table-bordered table-striped table-hover">
             <thead>
               <tr>
                 <th>#</th>
@@ -156,7 +157,7 @@
           </table>
         </div>
         <div class="card-footer">
-          Footer
+          {{ $categories->links() }}
         </div>
       </div>
 

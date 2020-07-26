@@ -11,7 +11,7 @@ class CategoryController extends Controller
     
     public function index() 
     {
-        $categories = Category::without('products')->get();
+        $categories = Category::without('products')->paginate(5);
         return view('category.index', compact('categories'));
     }
 

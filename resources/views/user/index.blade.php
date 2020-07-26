@@ -119,49 +119,56 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="container-fluid">
+    <div class="container">
 
-      <div class="d-flex mb-2">
-        <button class="btn mx-1 btn-create btn-sm btn-primary" data-toggle="modal" data-target="#modal-create">Add User</button>
-        <button class="btn px-3 mx-1 btn-sm btn-primary"><i class="fas fa-print"></i></button>
-      </div>
+      <div class="row">
 
-      <div class="card">
-        <div class="card-body">
-          <table class="table table-borderless">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
-                <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
-              </tr>
-            </thead>
-            <tbody>
-                @php $i = 1; @endphp
-                @foreach ($users as $user)
-                <tr>
-                  <th>{{ $i }}</th>
-                  <td>{{ ucwords($user->name) }}</td>
-                  <td>{{ $user->email }}</td>
-                  <td>{{ $user->role->role }}</td>
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-edit text-info" data-id="{{ $user->id }}" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></button>
-                    <form action={{ route('user.delete', ['user' => $user]) }} method="POST" class="d-inline">
-                      @csrf @method('DELETE')
-                      <button class="btn btn-sm btn-delete text-danger"><i class="far fa-trash-alt"></i></button>
-                    </form>
-                  </td>
-                </tr>
-                @php $i++ @endphp
-                @endforeach
-            </tbody>
-          </table>
+        <div class="col-12">
+          <div class="card" style="border-radius:0%">
+            <div class="card-header bg-light">
+              <div class="d-flex justify-content-between">
+                <button style="border-radius:0%" class="btn px-4 btn-create btn-sm btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Create New User</button>
+                <button style="border-radius:0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    @php $i = 1; @endphp
+                    @foreach ($users as $user)
+                    <tr>
+                      <th>{{ $i }}</th>
+                      <td>{{ ucwords($user->name) }}</td>
+                      <td>{{ $user->email }}</td>
+                      <td>{{ $user->role->role }}</td>
+                      <td class="text-center">
+                        <button class="btn btn-sm btn-edit text-info" data-id="{{ $user->id }}" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></button>
+                        <form action={{ route('user.delete', ['user' => $user]) }} method="POST" class="d-inline">
+                          @csrf @method('DELETE')
+                          <button class="btn btn-sm btn-delete text-danger"><i class="far fa-trash-alt"></i></button>
+                        </form>
+                      </td>
+                    </tr>
+                    @php $i++ @endphp
+                    @endforeach
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer">
+              
+            </div>
+          </div>
         </div>
-        <div class="card-footer">
-          Footer
-        </div>
+
       </div>
 
     </div>

@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Customer;
+use App\Supplier;
 use Illuminate\Support\Facades\Validator;
 
-class CustomerController extends Controller
+class SupplierController extends Controller
 {
 
     public function index()
     {
-        $customers = Customer::paginate(5);
-        return view('customer.index', compact('customers'));
+        $suppliers = Supplier::paginate(5);
+        return view('supplier.index', compact('suppliers'));
     }
 
     public function get($customer)

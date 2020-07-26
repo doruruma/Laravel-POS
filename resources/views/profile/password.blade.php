@@ -44,49 +44,45 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="container-fluid">
+    <div class="container">
 
-      <div class="row">
+      <div class="row justify-content-center">
 
-        <div class="col-sm-12">
-            <div class="card-body">
+        <div class="col-sm-12" style="margin-top:50px">
+          <div class="card">
+            <div class="card-body px-5 py-5">
               <form action={{ route('profile.update-password') }} method="POST">
 
                 @csrf @method('PATCH')
 
-                <div class="form-row mb-3">
-                  <label for="old" class="col-form-label col-lg-2 col-sm-12">Old Password</label>
-                  <div class="col-lg-6 col-sm-12">
-                    <input type="password" name="old" id="old" class="form-control" autocomplete="off">
-                    <small class="text-danger">{{ $errors->first('old') }}</small>
-                  </div>
+                <div class="form-group">
+                  <label for="old">Old Password</label>
+                  <input type="password" name="old" id="old" class="form-control form-control-sm" autocomplete="off">
+                  <small class="text-danger">{{ $errors->first('old') }}</small>
                 </div>
 
-                <div class="form-row mb-3">
-                  <label for="new" class="col-form-label col-lg-2 col-sm-12">New Password</label>
-                  <div class="col-lg-6 col-sm-12">
-                    <input type="password" name="new" id="new" class="form-control" autocomplete="off">
-                    <small class="text-danger">{{ $errors->first('new') }}</small>
-                  </div>
+                <div class="form-group">
+                  <label for="new">New Password</label>
+                  <input type="password" name="new" id="new" class="form-control form-control-sm" autocomplete="off">
+                  <small class="text-danger">{{ $errors->first('new') }}</small>
                 </div>
 
-                <div class="form-row mb-3">
-                  <label for="new_confirmation" class="col-form-label col-lg-2 col-sm-12">Confirm Password</label>
-                  <div class="col-lg-6 col-sm-12">
-                    <input type="password" name="new_confirmation" id="new_confirmation" class="form-control" autocomplete="off">
-                    <small class="text-danger">{{ $errors->first('new_confirmation') }}</small>
-                  </div>
+                <div class="form-group">
+                  <label for="new_confirmation">Confirm Password</label>
+                  <input type="password" name="new_confirmation" id="new_confirmation" class="form-control form-control-sm" autocomplete="off">
+                  <small class="text-danger">{{ $errors->first('new_confirmation') }}</small>
                 </div>
 
-                <div class="form-row">
-                  <div class="col-4 offset-2">
-                    <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
-                  </div>
+                <hr>
+
+                <div class="form-group">
+                  <button type="submit" class="btn btn-block btn-primary">Save Changes</button>
                 </div>
                 
               </form>
             </div>
           </div>
+        </div>
 
       </div>
 

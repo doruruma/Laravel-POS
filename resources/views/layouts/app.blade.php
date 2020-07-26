@@ -9,7 +9,7 @@
   <title>@yield('title')</title>
 
   <!-- Google Font: Source Sans Pro -->
-  {{-- <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet"> --}}
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
   
   <!-- IonIcons -->
   <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -34,13 +34,6 @@
   {{-- SweetAlert 2 --}}
   <link rel="stylesheet" href={{ asset('plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}>
   <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-  
-  {{-- Custom CSS --}}
-  <style type="text/css">
-    *{
-      font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans';
-    }
-  </style>
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
