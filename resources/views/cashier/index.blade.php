@@ -63,7 +63,6 @@
     })
     // End New Customer Form
 
-
     // Ajax search Product
     $('#inputSearchItem').keyup(function() {
       $.ajax({
@@ -113,6 +112,11 @@
       })
     }
 
+    // Existing Customer Transaction
+    $('.customer-list-group').click(function(evt) {
+      evt.preventDefault()
+      $('#modalCheckout').modal('hide')
+    })
 
   })
 </script>
@@ -248,6 +252,11 @@
       </div>
     </div>
     <!-- ./Checkout Modal -->
+
+
+    <!-- Transaction Modal -->
+    
+    <!-- ./Transaction Modal -->
 
   </section>
   <!-- /.Main content -->

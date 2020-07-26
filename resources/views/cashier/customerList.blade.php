@@ -11,7 +11,7 @@
 
   <div class="list-group mb-2">
     @foreach ($customers as $res)
-    <a href="#" class="list-group-item list-group-item-action" style="">
+    <a href="#" class="list-group-item list-group-item-action customer-list-group" style="">
       {{ $res->email }} <br>
       <small>{{ $res->name }} - {{ $res->phone }}</small>
     </a>

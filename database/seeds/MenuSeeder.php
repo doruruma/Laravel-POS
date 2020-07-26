@@ -18,12 +18,11 @@ class MenuSeeder extends Seeder
 
         // Fill the data
         $menus = [
-            ['menu' => 'Profile'],
-            ['menu' => 'Users Management'],
-            ['menu' => 'Supplier'],
-            ['menu' => 'POS Management'],
-            ['menu' => 'Customers'],
-            ['menu' => 'Cashier']
+            ['menu' => 'Profile'],  // 1
+            ['menu' => 'Users Management'], // 2
+            ['menu' => 'Supplier Management'], // 3
+            ['menu' => 'Product Management'],   // 4
+            ['menu' => 'Cashier']   // 5
         ];
         foreach ($menus as $menu) {
             Menu::create($menu);

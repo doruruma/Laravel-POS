@@ -58,6 +58,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/categories/{category}', 'CategoryController@update')->name('category.update');
         Route::delete('/categories/{category}', 'CategoryController@delete')->name('category.delete');
     
+        // Suppliers
+        Route::get('/suppliers', 'SupplierController@index')->name('supplier');
+
+        // Products Supply
+        Route::get('/supplies', 'SupplyController@index')->name('supply');
+
         // Products
         Route::get('/products', 'ProductController@index')->name('product');
         Route::get('/products/create', 'ProductController@create')->name('product.create');
