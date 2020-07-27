@@ -10,4 +10,10 @@ class Purchase extends Model
     // Mass Assignement
     protected $guarded = [];
 
+    // Eloquent Relation
+    public function Supplier()
+    {
+        return $this->belongsTo(Supplier::class);
+    }
+
 }

@@ -121,50 +121,56 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="container-fluid">
+    <div class="container">
 
-      <div class="card" style="border-radius: 0%">
-        <div class="card-header bg-light">
-          <div class="d-flex justify-content-between">
-            <button style="border-radius: 0%" class="btn px-4 btn-create btn-sm btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Register New Suppliers</button>
-            <button style="border-radius: 0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button>
+      <div class="row">
+
+        <div class="col-12">
+          <div class="card" style="border-radius: 0%">
+            <div class="card-header bg-light">
+              <div class="d-flex justify-content-between">
+                <button style="border-radius: 0%" class="btn px-4 btn-create btn-sm btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Register New Suppliers</button>
+                <button style="border-radius: 0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button>
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="table table-borderless">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone</th>
+                    <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    @php $i = 1; @endphp
+                    @foreach ($suppliers as $supplier)
+                    <tr>
+                      <th>{{ $i }}</th>
+                      <td>{{ ucwords($supplier->name) }}</td>
+                      <td>{{ $supplier->address }}</td>
+                      <td>{{ $supplier->phone }}</td>
+                      <td class="text-center">
+                        <button class="btn btn-sm btn-edit text-info" data-id="{{ $supplier->id }}" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></button>
+                        <form action={{ route('supplier.delete', ['supplier' => $supplier]) }} method="POST" class="d-inline">
+                          @csrf @method('DELETE')
+                          <button class="btn btn-sm btn-delete text-danger"><i class="far fa-trash-alt"></i></button>
+                        </form>
+                      </td>
+                    </tr>
+                    @php $i++ @endphp
+                    @endforeach
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer">
+              {{ $suppliers->links() }}
+            </div>
           </div>
         </div>
-        <div class="card-body">
-          <table class="table table-borderless">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
-              </tr>
-            </thead>
-            <tbody>
-                @php $i = 1; @endphp
-                @foreach ($suppliers as $supplier)
-                <tr>
-                  <th>{{ $i }}</th>
-                  <td>{{ ucwords($supplier->name) }}</td>
-                  <td>{{ $supplier->address }}</td>
-                  <td>{{ $supplier->phone }}</td>
-                  <td class="text-center">
-                    <button class="btn btn-sm btn-edit text-info" data-id="{{ $supplier->id }}" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></button>
-                    <form action={{ route('supplier.delete', ['supplier' => $supplier]) }} method="POST" class="d-inline">
-                      @csrf @method('DELETE')
-                      <button class="btn btn-sm btn-delete text-danger"><i class="far fa-trash-alt"></i></button>
-                    </form>
-                  </td>
-                </tr>
-                @php $i++ @endphp
-                @endforeach
-            </tbody>
-          </table>
-        </div>
-        <div class="card-footer">
-          {{ $suppliers->links() }}
-        </div>
+
       </div>
 
     </div>

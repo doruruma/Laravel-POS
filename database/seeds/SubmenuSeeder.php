@@ -30,7 +30,7 @@ class SubmenuSeeder extends Seeder
             // Product Menu
             ['submenu' => 'Categories', 'route' => 'category', 'icon' => 'fas fa-th', 'identifier' => 'category', 'menu_id' => 4, 'active' => 1],
             ['submenu' => 'Products', 'route' => 'product', 'icon' => 'fas fa-archive', 'identifier' => 'product', 'menu_id' => 4, 'active' => 1],
-            ['submenu' => 'Products Supply', 'route' => 'supply', 'icon' => 'fas fa-box-open', 'identifier' => 'supply', 'menu_id' => 4, 'active' => 1],
+            ['submenu' => 'Stock Purchase', 'route' => 'purchase', 'icon' => 'fas fa-box-open', 'identifier' => 'purchase', 'menu_id' => 4, 'active' => 1],
             // Cashier Menu
             ['submenu' => 'Cashier Transaction', 'route' => 'cashier', 'icon' => 'fas fa-cash-register', 'identifier' => 'cashier', 'menu_id' => 5, 'active' => 1],
             ['submenu' => 'Cart', 'route' => 'cart', 'icon' => 'fas fa-shopping-cart', 'identifier' => 'cart', 'menu_id' => 5, 'active' => 1],

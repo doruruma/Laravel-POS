@@ -64,8 +64,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/suppliers/{supplier}', 'SupplierController@update')->name('supplier.update');
         Route::delete('/suppliers/{supplier}', 'SupplierController@delete')->name('supplier.delete');
 
-        // Products Supply
-        Route::get('/supplies', 'SupplyController@index')->name('supply');
+        // Stock Purchase
+        Route::get('/purchases', 'PurchaseController@index')->name('purchase');
 
         // Products
         Route::get('/products', 'ProductController@index')->name('product');
