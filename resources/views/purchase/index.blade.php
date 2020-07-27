@@ -12,6 +12,15 @@
       $('#form-create .text-danger').html('')
     })
 
+    $('.btn-detail').click(function() {
+      $.ajax({
+        url: $(this).data('route'),
+        success: function(res) {
+          $('#modal-detail .purchase-detail').html(res)
+        }
+      })
+    })
+
     $('#form-create').submit(function(evt) {
       evt.preventDefault()
       $.ajax({
@@ -100,7 +109,7 @@
                       <td>{{ $purchase->supplier->name }}</td>
                       <td>Rp {{ number_format($purchase->total) }}</td>
                       <td class="text-center">
-                        <button class="btn btn-sm btn-success btn-detail" data-toggle="modal" data-target="#modal-detail" style="border-radius:0%"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-sm btn-success btn-detail" data-id={{ $purchase->id }} data-route={{ route('purchase.detail', $purchase->id) }} data-toggle="modal" data-target="#modal-detail" style="border-radius:0%"><i class="fas fa-eye"></i></button>
                         <button class="btn btn-sm btn-primary btn-print" style="border-radius:0%"><i class="fas fa-print"></i></button>
                       </td>
                     </tr>
@@ -121,6 +130,26 @@
 
   </section>
   <!-- /.Main content -->
+
+  <!-- Detail Model -->
+  <div class="modal fade" id="modal-detail" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header" style="border:none">
+          <h5 class="modal-title">Purchase Detail</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="px-5 purchase-detail">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.Detail Model -->
 
   <!-- Create Modal -->
   <div class="modal fade" id="modal-create" tabindex="-1" role="dialog">
@@ -148,23 +177,10 @@
                 </select>
                 <small class="text-danger name-error"></small>
               </div>
-
+              
               <div class="form-group">
-                <label for="description">Description</label>
-                <textarea name="description" id="description" cols="30" rows="5" class="form-control" style="resize:none"></textarea>
-                <small class="text-danger description-error"></small>
-              </div>
-
-              <div class="form-group">
-                <label for="stock">Stock</label>
-                <input type="number" name="stock" id="stock" class="form-control">
-                <small class="text-danger stock-error"></small>
-              </div>
-
-              <div class="form-group">
-                <label for="price">Price (Rp)</label>
-                <input type="number" name="price" id="price" class="form-control">
-                <small class="text-danger price-error"></small>
+                <label for="">Items</label>
+                <div class="d-flex"></div>
               </div>
             
           </div>

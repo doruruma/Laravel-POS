@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Stock Purchase
         Route::get('/purchases', 'PurchaseController@index')->name('purchase');
+        Route::get('/purchases/detail/{id}', 'PurchaseController@detail')->name('purchase.detail');
 
         // Products
         Route::get('/products', 'ProductController@index')->name('product');

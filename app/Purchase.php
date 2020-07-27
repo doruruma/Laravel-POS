@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Purchase extends Model
 {
 
-    // Mass Assignement
+    // Mass Assignment
     protected $guarded = [];
 
     // Eloquent Relation
-    public function Supplier()
+    public function supplier()
     {
         return $this->belongsTo(Supplier::class);
     }
