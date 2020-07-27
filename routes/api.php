@@ -23,6 +23,9 @@ Route::get('/categories/{category}', 'CategoryController@get');
 // Products
 Route::get('/products/{product}', 'ProductController@get');
 
+// Suppliers
+Route::get('/suppliers/{supplier}', 'SupplierController@get');
+
 // Users
 Route::get('/users/{user}', 'UserController@get');
 

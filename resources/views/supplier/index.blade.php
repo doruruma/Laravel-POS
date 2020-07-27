@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Laravel POS | Customers')
+@section('title', 'Laravel POS | Suppliers')
 
 @section('script')
 <script>
   $(document).ready(function() {
 
-    $('.customer').addClass('active')
+    $('.supplier').addClass('active')
 
     $('.btn-delete').click(function(evt) {
       evt.preventDefault()
@@ -22,9 +22,9 @@
 
     $('.btn-edit').click(function() {
       $('#form-edit .text-danger').html('')
-      $('#form-edit').attr('action', '/customers/' + $(this).data('id'))
+      $('#form-edit').attr('action', '/suppliers/' + $(this).data('id'))
       $.ajax({
-        url: '/api/customers/' + $(this).data('id'),
+        url: '/api/suppliers/' + $(this).data('id'),
         method: 'GET',
         dataType: 'JSON',
         success: function(res) {
@@ -48,13 +48,12 @@
             text: 'Berhasil Update Data',
             icon: 'success'
           }).then((res) => {
-            document.location.href = '/customers'
+            document.location.href = '/suppliers'
           })
         },
         error: function(res) {
           if (res.status == 422) {
             $('#form-edit .name-error').html(res.responseJSON.name)
-            $('#form-edit .email-error').html(res.responseJSON.email)
             $('#form-edit .address-error').html(res.responseJSON.address)
             $('#form-edit .phone-error').html(res.responseJSON.phone[0])
           }
@@ -78,13 +77,12 @@
             text: 'Berhasil Tambah Data',
             icon: 'success'
           }).then((res) => {
-            document.location.href = '/customers'
+            document.location.href = '/suppliers'
           })
         },
         error: function(res) {
           if (res.status == 422) {
             $('#form-create .name-error').html(res.responseJSON.name)
-            $('#form-create .email-error').html(res.responseJSON.email)
             $('#form-create .address-error').html(res.responseJSON.address)
             $('#form-create .phone-error').html(res.responseJSON.phone[0])
           }
@@ -107,12 +105,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Customers List</h1>
+          <h1>Suppliers List</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Customers</li>
+            <li class="breadcrumb-item active">Suppliers</li>
           </ol>
         </div>
       </div>
@@ -125,19 +123,19 @@
 
     <div class="container-fluid">
 
-      <div class="d-flex mb-2">
-        <button class="btn mx-1 btn-create btn-sm btn-primary" data-toggle="modal" data-target="#modal-create">Register New Customers</button>
-        <button class="btn px-3 mx-1 btn-sm btn-primary"><i class="fas fa-print"></i></button>
-      </div>
-
-      <div class="card">
+      <div class="card" style="border-radius: 0%">
+        <div class="card-header bg-light">
+          <div class="d-flex justify-content-between">
+            <button style="border-radius: 0%" class="btn px-4 btn-create btn-sm btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Register New Suppliers</button>
+            <button style="border-radius: 0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button>
+          </div>
+        </div>
         <div class="card-body">
           <table class="table table-borderless">
             <thead>
               <tr>
                 <th>#</th>
                 <th>Name</th>
-                <th>Email</th>
                 <th>Address</th>
                 <th>Phone</th>
                 <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
@@ -145,16 +143,15 @@
             </thead>
             <tbody>
                 @php $i = 1; @endphp
-                @foreach ($customers as $customer)
+                @foreach ($suppliers as $supplier)
                 <tr>
                   <th>{{ $i }}</th>
-                  <td>{{ ucwords($customer->name) }}</td>
-                  <td>{{ $customer->email }}</td>
-                  <td>{{ $customer->address }}</td>
-                  <td>{{ $customer->phone }}</td>
+                  <td>{{ ucwords($supplier->name) }}</td>
+                  <td>{{ $supplier->address }}</td>
+                  <td>{{ $supplier->phone }}</td>
                   <td class="text-center">
-                    <button class="btn btn-sm btn-edit text-info" data-id="{{ $customer->id }}" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></button>
-                    <form action={{ route('customer.delete', ['customer' => $customer]) }} method="POST" class="d-inline">
+                    <button class="btn btn-sm btn-edit text-info" data-id="{{ $supplier->id }}" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></button>
+                    <form action={{ route('supplier.delete', ['supplier' => $supplier]) }} method="POST" class="d-inline">
                       @csrf @method('DELETE')
                       <button class="btn btn-sm btn-delete text-danger"><i class="far fa-trash-alt"></i></button>
                     </form>
@@ -164,10 +161,9 @@
                 @endforeach
             </tbody>
           </table>
-          {{ $customers->links() }}
         </div>
         <div class="card-footer">
-          Footer
+          {{ $suppliers->links() }}
         </div>
       </div>
 
@@ -181,7 +177,7 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header" style="border:none">
-          <h5 class="modal-title">Edit the customer data</h5>
+          <h5 class="modal-title">Edit the supplier data</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -196,12 +192,6 @@
                 <label for="name">Name</label>
                 <input type="text" name="name" id="name" class="form-control" autocomplete="off">
                 <small class="text-danger name-error"></small>
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" name="email" id="email" class="form-control" autocomplete="off">
-                <small class="text-danger email-error"></small>
               </div>
 
               <div class="form-group">
@@ -232,14 +222,14 @@
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header" style="border:none">
-          <h5 class="modal-title">Register Customer</h5>
+          <h5 class="modal-title">Register Supplier</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="px-5">
-            <form action={{ route('customer.store') }} method="POST" id="form-create">
+            <form action={{ route('supplier.store') }} method="POST" id="form-create">
             
               @csrf
 
@@ -247,12 +237,6 @@
                 <label for="name">Name</label>
                 <input type="text" name="name" id="name" class="form-control" autocomplete="off">
                 <small class="text-danger name-error"></small>
-              </div>
-
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" name="email" id="email" class="form-control" autocomplete="off">
-                <small class="text-danger email-error"></small>
               </div>
 
               <div class="form-group">

@@ -15,53 +15,49 @@ class SupplierController extends Controller
         return view('supplier.index', compact('suppliers'));
     }
 
-    public function get($customer)
+    public function get($supplier)
     {
-        return response()->json(Customer::findOrFail($customer));
+        return response()->json(Supplier::findOrFail($supplier));
     }
 
     public function store(Request $req)
     {
         $validator = Validator::make($req->all(), [
             'name' => 'required|min:3',
-            'email' => 'required|email',
             'address' => 'required|min:4',
             'phone' => 'required|numeric|min:11'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-        $customer = new Customer;
-        $customer->name = $req->name;
-        $customer->email = $req->email;
-        $customer->address = $req->address;
-        $customer->phone = $req->phone;
-        $customer->save();
+        $supplier = new Supplier;
+        $supplier->name = $req->name;
+        $supplier->address = $req->address;
+        $supplier->phone = $req->phone;
+        $supplier->save();
     }
 
     public function update(Request $req, $id)
     {
         $validator = Validator::make($req->all(), [
             'name' => 'required|min:3',
-            'email' => 'required|email',
             'address' => 'required|min:4',
             'phone' => 'required|numeric:min:11'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-        Customer::whereId($id)->update([
+        Supplier::whereId($id)->update([
             'name' => $req->name,
-            'email' => $req->email,
             'address' => $req->address,
             'phone' => $req->phone
         ]);
     }
 
-    public function delete(Customer $customer)
+    public function delete(Supplier $supplier)
     {
-        $customer->delete();
-        return redirect(route('customer'))->with([
+        $supplier->delete();
+        return redirect(route('supplier'))->with([
             'type' => 'success',
             'message' => 'Berhasil Hapus Data'
         ]);

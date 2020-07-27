@@ -60,6 +60,9 @@ Route::group(['middleware' => 'auth'], function () {
     
         // Suppliers
         Route::get('/suppliers', 'SupplierController@index')->name('supplier');
+        Route::post('/suppliers/store', 'SupplierController@store')->name('supplier.store');
+        Route::post('/suppliers/{supplier}', 'SupplierController@update')->name('supplier.update');
+        Route::delete('/suppliers/{supplier}', 'SupplierController@delete')->name('supplier.delete');
 
         // Products Supply
         Route::get('/supplies', 'SupplyController@index')->name('supply');
