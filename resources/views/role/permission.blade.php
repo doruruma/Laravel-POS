@@ -40,48 +40,57 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="container-fluid">
+    <div class="container">
 
-      <div class="d-flex mb-2">
-        <button class="btn mx-1 btn-create btn-sm btn-primary" data-toggle="modal" data-target="#modal-create">Add Role</button>
-        <button class="btn px-3 mx-1 btn-sm btn-primary"><i class="fas fa-print"></i></button>
-      </div>
+      <div class="row">
 
-      <div class="card">
-        <div class="card-body">
-          <form action={{ route('role.update-permission', $role->id) }} method="POST">
+        <div class="col-12">
+          <div class="card" style="border-radius: 0%">
+            <div class="card-header bg-light">
+              <div class="d-flex justify-content-between">
+                <button style="border-radius: 0%" class="btn px-4 btn-create btn-sm btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Add Role</button>
+                <button style="border-radius: 0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button>
+              </div>
+            </div>
+            <form action={{ route('role.update-permission', $role->id) }} method="POST">
+            <div class="card-body">
 
-            @csrf
+                @csrf
 
-            <table class="table table-borderless">
-              <thead class="text-muted">
-                <th>Menu</th>
-                <th class="text-center">Grant</th>
-                <th class="text-center">Deny</th>
-              </thead>
-              <tbody>
-                @foreach ($menus as $menu)
-                  <tr>
-                    <td>{{ $menu->menu }}</td>
-                    <td class="text-center">
-                      <div class="icheck-primary">
-                        <input type="radio" name="{{ $menu->id }}" id="{{ $menu->id }}" value="{{ $menu->id }}" {{ RoleHelper::check($role->id, $menu->id) }}>
-                        <label for="{{ $menu->id }}"></label>
-                      </div>
-                    </td>
-                    <td class="text-center">
-                      <div class="icheck-danger">
-                        <input type="radio" name="{{ $menu->id }}" id="deny{{ $menu->id }}" value="deny.{{ $menu->id }}" {{ RoleHelper::uncheck($role->id, $menu->id) }}>
-                        <label for="deny{{ $menu->id }}"></label>
-                      </div>
-                    </td>
-                  </tr>
-                @endforeach
-              </tbody>
-            </table>
-            <button type="submit" class="mt-3 btn btn-sm btn-primary">Save Changes</button>
-          </form>
+                <table class="table table-borderless">
+                  <thead class="text-muted">
+                    <th>Menu</th>
+                    <th class="text-center">Grant</th>
+                    <th class="text-center">Deny</th>
+                  </thead>
+                  <tbody>
+                    @foreach ($menus as $menu)
+                      <tr>
+                        <td>{{ $menu->menu }}</td>
+                        <td class="text-center">
+                          <div class="icheck-primary">
+                            <input type="radio" name="{{ $menu->id }}" id="{{ $menu->id }}" value="{{ $menu->id }}" {{ RoleHelper::check($role->id, $menu->id) }}>
+                            <label for="{{ $menu->id }}"></label>
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <div class="icheck-danger">
+                            <input type="radio" name="{{ $menu->id }}" id="deny{{ $menu->id }}" value="deny.{{ $menu->id }}" {{ RoleHelper::uncheck($role->id, $menu->id) }}>
+                            <label for="deny{{ $menu->id }}"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+              <button type="submit" class="btn btn-sm btn-primary">Save Changes</button>
+            </div>
+            </form>
+          </div>
         </div>
+
       </div>
 
     </div>

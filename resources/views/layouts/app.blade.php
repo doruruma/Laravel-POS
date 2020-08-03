@@ -46,6 +46,8 @@
 
   @include('layouts.footer')
 
+  @yield('plugin')
+
   @yield('script')
 
   <script>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Purchase;
 use App\Purchase_detail;
 use App\Supplier;
+use DataTables;
 
 class PurchaseController extends Controller
 {
@@ -13,8 +14,18 @@ class PurchaseController extends Controller
     public function index()
     {
         $purchases  = Purchase::paginate(5);
+        return view('purchase.index', compact('purchases'));
+    }
+
+    public function getSupplier()
+    {
+        return Datatables::of(Supplier::all())->make(true);
+    }
+
+    public function create()
+    {
         $suppliers = Supplier::all();
-        return view('purchase.index', compact('purchases', 'suppliers'));
+        return view('purchase.create', compact('suppliers'));
     }
 
     public function detail($id)
