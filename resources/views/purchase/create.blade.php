@@ -15,7 +15,44 @@
     $('.purchase').addClass('active');
 
     $('.btn-choose-supplier').click(function() {
-      $('.table-supplier').DataTable()
+      $('.table-supplier').DataTable({
+        retrieve: true,
+        serverSide: true,
+        processing: true,
+        ajax: '/purchases/get-suppliers',
+        columns: [
+          { data: 'name', name: 'name' },
+          { data: 'phone', name: 'phone' },
+          { data: 'address', name: 'address' },
+          { data: 'Action', name: 'action' },
+        ]
+      })
+    })
+
+    $(document).on('click', '.btn-check-supplier', function() {
+      let id = $(this).data('id')
+      $.ajax({
+        url: '/purchases/get-supplier-by-id/' + id,
+        method: 'GET',
+        success: function(res) {
+          $('#modal-supplier').modal('hide')
+          $('.list-group-supplier').html(res)
+          $('.section-item').removeClass('d-none')
+        }
+      })
+    })
+
+    $('.btn-add-row').click(function() {
+      $.ajax({
+        url: '/purchases/get-table-item',
+        success: function(res) {
+          $('.table-item').append(res)
+        }
+      })
+    })
+
+    $(document).on('click', '.btn-remove-row', function() {
+      $(this).parent().parent().remove()
     })
 
   })
@@ -57,7 +94,43 @@
         <div class="col-12">
           <div class="card mb-5">
             <div class="card-body">
-              <button class="btn btn-sm btn-success btn-choose-supplier" style="border-radius: 0%" data-toggle="modal" data-target="#modal-supplier">Choose Supplier</button>
+              <div class="row">
+
+                <!-- Button Choose Supplier -->
+                <div class="col-12 py-1">
+                  <button class="btn btn-sm btn-success btn-choose-supplier" style="border-radius: 0%" data-toggle="modal" data-target="#modal-supplier">Choose Supplier</button>
+                </div>
+                <!-- /.Button Choose Supplier -->
+
+                <!-- Supplier Textfied -->
+                <div class="col-12 py-1">
+                  <ul class="list-group list-group-supplier">
+                    <li class="list-group-item text-center py-4 text-muted">No Supplier Selected</li>
+                  </ul>
+                  <hr>
+                </div>
+                <!-- /.Supplier Textfied -->
+
+                <!-- Item Table -->
+                <div class="col-12 d-none section-item">
+                  <div class="table-responsive">
+                    <table class="table table-bordered">
+                      <thead>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th></th>
+                      </thead>
+                      <tbody class="table-item">
+                        @include('purchase.table_item')
+                      </tbody>
+                    </table>
+                  </div>
+                  <button style="border-radius:0%" class="btn btn-sm btn-info btn-add-row"><i class="fas fa-plus"></i> Show More</button>
+                </div>
+                <!-- /.Item Table -->
+
+              </div>
             </div>
           </div>
         </div>
@@ -81,34 +154,17 @@
         </div>
         <div class="modal-body">
           <div class="px-5">
-            <table class="table-supplier table table-hover table-bordered">
-              <thead>
-                <th>#</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>Action</th>
-              </thead>
-              <tbody>
-                @php $i = 1 @endphp
-                @foreach ($suppliers as $supplier)
-                  <tr>
-                    <td>{{ $i }}</td>
-                    <td>{{ $supplier->name }}</td>
-                    <td>{{ $supplier->address }}</td>
-                    <td>{{ $supplier->phone }}</td>
-                    <td class="text-center">
-                      <button style="border-radius: 0%" class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
-                    </td>
-                  </tr>
-                  @php $i++ @endphp
-                @endforeach
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table-supplier table table-hover table-bordered">
+                <thead>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Phone</th>
+                  <th>Action</th>
+                </thead>
+              </table>
+            </div>
           </div>
-        </div>
-        <div class="modal-footer" style="border:none">
-          <button type="button" class="btn btn-primary">Submit</button>
         </div>
       </div>
     </div>
