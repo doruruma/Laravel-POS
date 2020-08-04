@@ -15,19 +15,7 @@
     $('.purchase').addClass('active');
 
     $('.btn-choose-supplier').click(function() {
-      $('.table-supplier').DataTable({
-        retrieve: true,
-        processing: true,
-        serverSide: true,
-        ajax: '/purchases/get-supplier',
-        columns: [
-          // { data: '#', name: 'data' },
-          { data: 'name', name: 'name' },
-          { data: 'address', name: 'address' },
-          { data: 'phone', name: 'phone' },
-          { data: 'action', content: 'a' }
-        ]
-      })
+      $('.table-supplier').DataTable()
     })
 
   })
@@ -93,14 +81,29 @@
         </div>
         <div class="modal-body">
           <div class="px-5">
-            <table class="table-supplier table table-hover table-bordered table-striped">
+            <table class="table-supplier table table-hover table-bordered">
               <thead>
-                {{-- <th>#</th> --}}
+                <th>#</th>
                 <th>Name</th>
                 <th>Address</th>
                 <th>Phone</th>
                 <th>Action</th>
               </thead>
+              <tbody>
+                @php $i = 1 @endphp
+                @foreach ($suppliers as $supplier)
+                  <tr>
+                    <td>{{ $i }}</td>
+                    <td>{{ $supplier->name }}</td>
+                    <td>{{ $supplier->address }}</td>
+                    <td>{{ $supplier->phone }}</td>
+                    <td class="text-center">
+                      <button style="border-radius: 0%" class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
+                    </td>
+                  </tr>
+                  @php $i++ @endphp
+                @endforeach
+              </tbody>
             </table>
           </div>
         </div>

@@ -70,7 +70,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/purchases/store', 'PurchaseController@store')->name('purchase.store');
         Route::get('/purchases/detail/{id}', 'PurchaseController@detail')->name('purchase.detail');
         // Stock Purchase JSON
-        Route::get('/purchases/get-supplier', 'PurchaseController@getSupplier');
+        // Route::get('/purchases/get-supplier', 'PurchaseController@getSupplier');
 
         // Products
         Route::get('/products', 'ProductController@index')->name('product');

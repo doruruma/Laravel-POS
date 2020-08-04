@@ -17,11 +17,6 @@ class PurchaseController extends Controller
         return view('purchase.index', compact('purchases'));
     }
 
-    public function getSupplier()
-    {
-        return Datatables::of(Supplier::all())->make(true);
-    }
-
     public function create()
     {
         $suppliers = Supplier::all();
