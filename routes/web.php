@@ -71,9 +71,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/purchases/detail/{id}', 'PurchaseController@detail')->name('purchase.detail');
         // Stock Purchase JSON
         Route::get('/purchases/get-suppliers', 'PurchaseController@getSuppliers');
+        Route::get('/purchases/get-products', 'PurchaseController@getProducts');
         Route::get('/purchases/get-supplier-by-id/{id}', 'PurchaseController@getSupplierById');
         // Stock Purchase View
-        Route::get('/purchases/get-table-item', 'PurchaseController@getTableItem');
+        Route::get('/purchases/get-table-product', 'PurchaseController@getTableProduct');
 
         // Products
         Route::get('/products', 'ProductController@index')->name('product');

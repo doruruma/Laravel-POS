@@ -14,6 +14,10 @@
 
     $('.purchase').addClass('active');
 
+    $('.btn-close-alert').click(function() {
+      $('.alert').addClass('d-none')
+    })
+
     $('.btn-choose-supplier').click(function() {
       $('.table-supplier').DataTable({
         retrieve: true,
@@ -31,28 +35,75 @@
 
     $(document).on('click', '.btn-check-supplier', function() {
       let id = $(this).data('id')
+      $('.input-supplier-id').val(id)
       $.ajax({
         url: '/purchases/get-supplier-by-id/' + id,
         method: 'GET',
         success: function(res) {
           $('#modal-supplier').modal('hide')
           $('.list-group-supplier').html(res)
-          $('.section-item').removeClass('d-none')
+          $('.section-purchase').removeClass('d-none')
         }
       })
     })
 
     $('.btn-add-row').click(function() {
       $.ajax({
-        url: '/purchases/get-table-item',
+        url: '/purchases/get-table-product',
         success: function(res) {
-          $('.table-item').append(res)
+          $('.table-purchase tbody').append(res)
         }
       })
     })
 
     $(document).on('click', '.btn-remove-row', function() {
       $(this).parent().parent().remove()
+    })
+
+    let index = 0
+    $(document).on('click', '.input-product-id', function() {   
+      // Get the <tr> index  
+      index = $(this).parent().parent().index()
+      $('#modal-product').modal('show')
+      $('.table-product').DataTable({
+        retrieve: true,
+        serverSide: true,
+        processing: true,
+        ajax: '/purchases/get-products',
+        columns: [
+          { data: 'name', name: 'name' },
+          { data: 'Action', name: 'action' },
+        ]
+      })
+    })
+
+    $(document).on('click', '.btn-check-product', function() {
+      index += 1
+      var selector = ".section-purchase tbody tr:nth-child(" + index + ")"
+      $(selector + ' .input-product-id').data('value', $(this).data('id')).val($(this).data('name'))
+      $('#modal-product').modal('toggle')
+    })
+
+    $('.btn-submit').click(function(evt) {
+      evt.preventDefault()
+      $.ajax({
+        url: $(this).data('route'),
+        method: 'POST',
+        dataType: 'JSON',
+        data: $('.section-purchase form').serialize() + '&product_id[]=' + $('.input-product-id').data('value'),
+        success: function (res) {
+          $('.alert').addClass('d-none');
+        },
+        error: function (res)  {
+          if(res.status == 422) {
+            $('.alert .alert-content').html("")
+            $('.alert').addClass('show').removeClass('d-none')
+            res.responseJSON.forEach(element => {
+              $('.alert .alert-content').append("<div>" + element + "</div>")
+            });
+          }
+        }
+      })
     })
 
   })
@@ -92,6 +143,16 @@
       <div class="row">
 
         <div class="col-12">
+
+          <!-- Alerts -->
+          <div class="alert animated bounceIn shadow-sm alert-light bg-white alert-dismissible d-none" role="alert">
+            <div class="alert-content text-danger"></div>
+            <button type="button" class="close btn-close-alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!-- /.Alerts -->
+
           <div class="card mb-5">
             <div class="card-body">
               <div class="row">
@@ -111,24 +172,30 @@
                 </div>
                 <!-- /.Supplier Textfied -->
 
-                <!-- Item Table -->
-                <div class="col-12 d-none section-item">
+                <!-- Table Product -->
+                <div class="col-12 d-none section-purchase">
+                  <form action="{{ route('purchase.store') }}" method="POST">
                   <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table-purchase">
                       <thead>
                         <th>Item</th>
-                        <th>Price</th>
+                        <th>Price (Rp)</th>
                         <th>Qty</th>
                         <th></th>
                       </thead>
-                      <tbody class="table-item">
-                        @include('purchase.table_item')
+                      <tbody>
+                        @csrf
+                        <input type="hidden" name="supplier_id" id="input-supplier-id" class="input-supplier-id">
+                        @include('purchase.table_product')
                       </tbody>
                     </table>
                   </div>
-                  <button style="border-radius:0%" class="btn btn-sm btn-info btn-add-row"><i class="fas fa-plus"></i> Show More</button>
+                  <button type="button" style="border-radius:0%" class="btn btn-sm btn-info btn-add-row"><i class="fas fa-plus"></i> Show More</button>
+                  <hr>
+                  <button type="submit" style="border-radius:0%" class="btn btn-block btn-primary btn-submit" data-route="{{ route('purchase.store') }}">Submit</button>
+                </form>
                 </div>
-                <!-- /.Item Table -->
+                <!-- /.Table Product -->
 
               </div>
             </div>
@@ -141,6 +208,33 @@
 
   </section>
   <!-- /.Main content -->
+
+  <!-- Modal Product -->
+  <div class="modal" tabindex="-1" role="dialog" id="modal-product">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header" style="border:none">
+          <h5 class="modal-title">Choose Product</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="px-5">
+            <div class="table-responsive">
+              <table class="table-product table table-hover table-bordered">
+                <thead>
+                  <th>Name</th>
+                  <th>Action</th>
+                </thead>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /.Modal Product -->
 
   <!-- Modal Supplier -->
   <div class="modal" tabindex="-1" role="dialog" id="modal-supplier">
