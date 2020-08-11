@@ -59,7 +59,6 @@ class PurchaseController extends Controller
 
     public function store(Request $req)
     {
-
         $customMessages = [
             // qty
             'qty.*.required' => 'Item quantity is required',
@@ -92,6 +91,34 @@ class PurchaseController extends Controller
             ];
             return response()->json($errors, 422);
         }
+
+        // hitung total
+        $total = 0;
+        foreach ($req->price as $key => $value) {
+            $total += $value * $req->qty[$key];
+        }
+        // input ke table purchase
+        $purchase = new Purchase;
+        $purchase->total = $total;
+        $purchase->supplier_id = $req->supplier_id;
+        $purchase->save();
+        // mengambil purchase_id yang terakhir dimasukan
+        $purchase_id = $purchase->id;
+        // input ke table purchase_details
+        foreach ($req->product_id as $key => $value) {
+            $details = new Purchase_detail;
+            $details->purchase_id = $purchase_id;
+            $details->product_id = $value;
+            $details->subtotal = $req->price[$key] * $req->qty[$key];
+            $details->price = $req->price[$key];
+            $details->qty = $req->qty[$key];
+            $details->save();
+        }
+        // mengembalikan pesan sukses
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Berhasil Menambah Data'
+        ]);
     }
 
     public function detail($id)

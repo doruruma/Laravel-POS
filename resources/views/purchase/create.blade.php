@@ -10,15 +10,17 @@
 
 @section('script')
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
 
     $('.purchase').addClass('active');
 
-    $('.btn-close-alert').click(function() {
+    $('.section-purchase tbody tr .btn-remove-row').first().remove()
+
+    $('.btn-close-alert').click(function () {
       $('.alert').addClass('d-none')
     })
 
-    $('.btn-choose-supplier').click(function() {
+    $('.btn-choose-supplier').click(function () {
       $('.table-supplier').DataTable({
         retrieve: true,
         serverSide: true,
@@ -33,7 +35,7 @@
       })
     })
 
-    $(document).on('click', '.btn-check-supplier', function() {
+    $(document).on('click', '.btn-check-supplier', function () {
       let id = $(this).data('id')
       $('.input-supplier-id').val(id)
       $.ajax({
@@ -47,7 +49,7 @@
       })
     })
 
-    $('.btn-add-row').click(function() {
+    $('.btn-add-row').click(function () {
       $.ajax({
         url: '/purchases/get-table-product',
         success: function(res) {
@@ -56,12 +58,12 @@
       })
     })
 
-    $(document).on('click', '.btn-remove-row', function() {
+    $(document).on('click', '.btn-remove-row', function () {
       $(this).parent().parent().remove()
     })
 
     let index = 0
-    $(document).on('click', '.input-product-id', function() {   
+    $(document).on('click', '.input-product', function () {   
       // Get the <tr> index  
       index = $(this).parent().parent().index()
       $('#modal-product').modal('show')
@@ -77,22 +79,30 @@
       })
     })
 
-    $(document).on('click', '.btn-check-product', function() {
+    $(document).on('click', '.btn-check-product', function () {
       index += 1
-      var selector = ".section-purchase tbody tr:nth-child(" + index + ")"
-      $(selector + ' .input-product-id').data('value', $(this).data('id')).val($(this).data('name'))
+      let selector = ".section-purchase tbody tr:nth-child(" + index + ")";
+      $(selector + " .input-product").val($(this).data('name'))
+      $(selector + " .input-product-id").val($(this).data('id'))
       $('#modal-product').modal('toggle')
     })
 
-    $('.btn-submit').click(function(evt) {
+    $('.btn-submit').click(function (evt) {
       evt.preventDefault()
       $.ajax({
         url: $(this).data('route'),
         method: 'POST',
         dataType: 'JSON',
-        data: $('.section-purchase form').serialize() + '&product_id[]=' + $('.input-product-id').data('value'),
+        data: $('.section-purchase form').serialize(),
         success: function (res) {
           $('.alert').addClass('d-none');
+          Swal.fire({
+            title: res.type,
+            text: res.message,
+            icon: res.type
+          }).then((res) => {
+            document.location.href = '/purchases'
+          })
         },
         error: function (res)  {
           if(res.status == 422) {
