@@ -11,7 +11,7 @@
     @foreach ($details as $detail)
       <tr>
         <td>{{ $detail->product->name }}</td>
-        <td>Rp {{ number_format($detail->product->price) }}</td>
+        <td>Rp {{ number_format($detail->price) }}</td>
         <td>{{ $detail->qty }}</td>
         <td>Rp {{ number_format($detail->subtotal) }}</td>
       </tr>

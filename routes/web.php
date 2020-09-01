@@ -11,22 +11,37 @@
 |
 */
 
-// Auth
+
+/**
+ * Auth
+ */
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/login', 'AuthController@login')->name('login');
     Route::post('/login', 'AuthController@postLogin')->name('postLogin');
 });
 
-// Logout
+
+/**
+ * Logout
+ */
 Route::post('/logout', 'AuthController@logout')->name('logout');
 
-// Route Middleware Auth
+
+/**
+ * Route Middleware Auth
+ */
 Route::group(['middleware' => 'auth'], function () {
-    
+
+
     // Dashboard
     Route::get('/', function () {
         return view('dashboard');
-    })->name('dashboard');    
+    })->name('dashboard');
+
+
+    // Access
+    Route::get('/api/access/{access}', 'AccessController@get');
+
 
     // Profile
     Route::get('/profile', 'ProfileController@index')->name('profile');
@@ -35,12 +50,19 @@ Route::group(['middleware' => 'auth'], function () {
     Route::patch('/profile', 'ProfileController@updateProfile')->name('profile.update-profile');
     Route::patch('/profile/password', 'ProfileController@updatePassword')->name('profile.update-password');
 
+
+    /**
+     * Admin Route
+     */
     Route::group(['middleware' => 'admin'], function () {
+
         // Users
         Route::get('/users', 'UserController@index')->name('user');
         Route::post('/users/store', 'UserController@store')->name('user.store');
         Route::post('/users/{user}', 'UserController@update')->name('user.update');
         Route::delete('/users/{user}', 'UserController@delete')->name('user.delete');
+        // Users JSON
+        Route::get('/api/users/{user}', 'UserController@get');
 
         // Roles
         Route::get('/roles', 'RoleController@index')->name('role');
@@ -49,20 +71,31 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/roles/store', 'RoleController@store')->name('role.store');
         Route::post('/roles/{role}', 'RoleController@update')->name('role.update');
         Route::delete('/roles/{role}', 'RoleController@delete')->name('role.delete');
+        // Roles JSON
+        Route::get('/api/roles/{role}', 'RoleController@get');
     });
 
+
+    /**
+     * User Route
+     */
     Route::group(['middleware' => 'user'], function () {
+
         // Categories
         Route::get('/categories', 'CategoryController@index')->name('category');
         Route::post('/categories/store', 'CategoryController@store')->name('category.store');
         Route::post('/categories/{category}', 'CategoryController@update')->name('category.update');
         Route::delete('/categories/{category}', 'CategoryController@delete')->name('category.delete');
-    
+        // Categories JSON
+        Route::get('/api/categories/{category}', 'CategoryController@get');
+
         // Suppliers
         Route::get('/suppliers', 'SupplierController@index')->name('supplier');
         Route::post('/suppliers/store', 'SupplierController@store')->name('supplier.store');
         Route::post('/suppliers/{supplier}', 'SupplierController@update')->name('supplier.update');
         Route::delete('/suppliers/{supplier}', 'SupplierController@delete')->name('supplier.delete');
+        // Suppliers JSON
+        Route::get('/api/suppliers/{supplier}', 'SupplierController@get');
 
         // Stock Purchase
         Route::get('/purchases', 'PurchaseController@index')->name('purchase');
@@ -82,9 +115,16 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/products/store', 'ProductController@store')->name('product.store');
         Route::post('/products/{product}', 'ProductController@update')->name('product.update');
         Route::delete('/products/{product}', 'ProductController@delete')->name('product.delete');
+        // Products JSON
+        Route::get('/api/products/{product}', 'ProductController@get');
     });
 
+
+    /**
+     * Cashier Route
+     */
     Route::group(['middleware' => 'cashier'], function () {
+
         // Cashier
         Route::get('/cashier', 'CashierController@index')->name('cashier');
         Route::get('/cashier/paginate-product', 'CashierController@paginateProduct');
@@ -99,5 +139,4 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/cart/min/{cart}', 'CartController@minQty')->name('cart.min-qty');
         Route::delete('/cart/{cart}', 'CartController@delete')->name('cart.delete');
     });
-    
 });

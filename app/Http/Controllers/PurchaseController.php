@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\PurchaseHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Purchase;
@@ -12,7 +13,7 @@ use Yajra\DataTables\Facades\DataTables as DataTables;
 
 class PurchaseController extends Controller
 {
-    
+
     public function index()
     {
         $purchases  = Purchase::paginate(5);
@@ -23,7 +24,7 @@ class PurchaseController extends Controller
     {
         $suppliers = Supplier::latest()->get();
         return DataTables::of($suppliers)
-            ->addColumn('Action', function($suppliers) {
+            ->addColumn('Action', function ($suppliers) {
                 return "<center><button style='border-radius: 0%' class='btn btn-sm btn-success btn-check-supplier' data-id='$suppliers->id'><i class='fas fa-check'></i></button></center>";
             })
             ->rawColumns(['Action'])
@@ -34,7 +35,7 @@ class PurchaseController extends Controller
     {
         $products = Product::all();
         return DataTables::of($products)
-            ->addColumn('Action', function($products) {
+            ->addColumn('Action', function ($products) {
                 return "<center><button style='border-radius: 0%' class='btn btn-sm btn-success btn-check-product' data-id='$products->id' data-name='$products->name'><i class='fas fa-check'></i></button></center>";
             })
             ->rawColumns(['Action'])
@@ -68,13 +69,14 @@ class PurchaseController extends Controller
             'price.*.numeric' => 'Item price must be a number',
             'price.*.min' => 'Item price must be at least 3 digits',
             // product_id
-            'product_id.*.required' => 'Product is required'
+            'product_id.*.required' => 'Product is required',
+            'product_id.*.distinct' => 'Product field has a duplicate value'
         ];
 
         $validator = Validator::make($req->all(), [
             'supplier_id' => 'required|numeric',
             'product_id' => 'required|array',
-            'product_id.*' => 'required',
+            'product_id.*' => 'required|distinct',
             'price' => 'required|array',
             'price.*' => 'required|numeric|min:3',
             'qty' => 'required|array',
@@ -82,8 +84,8 @@ class PurchaseController extends Controller
         ], $customMessages, [
             'supplier_id' => 'supplier'
         ]);
-        
-        if($validator->fails()) {
+
+        if ($validator->fails()) {
             $errors = [
                 $validator->errors()->first('product_id.*'),
                 $validator->errors()->first('price.*'),
@@ -92,28 +94,26 @@ class PurchaseController extends Controller
             return response()->json($errors, 422);
         }
 
-        // hitung total
-        $total = 0;
-        foreach ($req->price as $key => $value) {
-            $total += $value * $req->qty[$key];
-        }
+        // menghitung total
+        $total = PurchaseHelper::count_total($req->price, $req->qty);
+
         // input ke table purchase
         $purchase = new Purchase;
         $purchase->total = $total;
         $purchase->supplier_id = $req->supplier_id;
         $purchase->save();
-        // mengambil purchase_id yang terakhir dimasukan
-        $purchase_id = $purchase->id;
+
         // input ke table purchase_details
         foreach ($req->product_id as $key => $value) {
             $details = new Purchase_detail;
-            $details->purchase_id = $purchase_id;
+            $details->purchase_id = $purchase->id;
             $details->product_id = $value;
             $details->subtotal = $req->price[$key] * $req->qty[$key];
             $details->price = $req->price[$key];
             $details->qty = $req->qty[$key];
             $details->save();
         }
+
         // mengembalikan pesan sukses
         return response()->json([
             'type' => 'success',
@@ -127,5 +127,4 @@ class PurchaseController extends Controller
         $details = Purchase_detail::where('purchase_id', $id)->get();
         return view('purchase.purchase_detail', compact('details', 'total'));
     }
-
 }
