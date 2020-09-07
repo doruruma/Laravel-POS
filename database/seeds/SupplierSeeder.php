@@ -1,6 +1,7 @@
 <?php
 
 use App\Supplier;
+use Faker\Factory;
 use Illuminate\Database\Seeder;
 
 class SupplierSeeder extends Seeder
@@ -17,20 +18,13 @@ class SupplierSeeder extends Seeder
         DB::table('suppliers')->truncate();
 
         // Fill the data
-        $suppliers = [
-            [
-                'name' => 'Supplier 1',
-                'address' => 'JL Batako NO 2',
-                'phone' => '000099992222'
-            ],
-            [
-                'name' => 'Supplier 2',
-                'address' => 'JL Tanah Merah NO 14',
-                'phone' => '888822223333'
-            ]
-        ];
-        foreach ($suppliers as $supplier) {
-            Supplier::create($supplier);
+        $faker = Factory::create('id_ID');
+        for ($i=1; $i <= 50; $i++) { 
+            $supplier = new Supplier;
+            $supplier->name = $faker->name;
+            $supplier->address = $faker->address;
+            $supplier->phone = $faker->phoneNumber;
+            $supplier->save();
         }
     }
 }

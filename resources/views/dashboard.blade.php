@@ -33,26 +33,44 @@
 
   <!-- Main content -->
   <section class="content">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Title</h3>
-        <div class="card-tools">
-          <button type="button" class="btn btn-tool" data-card-widget="collapse" data-toggle="tooltip" title="Collapse">
-            <i class="fas fa-minus"></i></button>
-          <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
-            <i class="fas fa-times"></i></button>
+
+    <div class="row">
+
+      <div class="col-md-3">
+        <div class="small-box bg-danger">
+          <div class="inner">
+            <h3>65</h3>
+            <p>Unique Visitors</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-chart-pie"></i>
+          </div>
+          <a href="#" class="small-box-footer">
+            More info <i class="fas fa-arrow-circle-right"></i>
+          </a>
         </div>
       </div>
-      <div class="card-body">
-        Start creating your amazing application!
+
+      <div class="col-md-3">
+        <div class="small-box bg-danger">
+          <div class="inner">
+            <h3>65</h3>
+            <p>Unique Visitors</p>
+          </div>
+          <div class="icon">
+            <i class="fas fa-chart-pie"></i>
+          </div>
+          <a href="#" class="small-box-footer">
+            More info <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
       </div>
-      <div class="card-footer">
-        Footer
-      </div>
+
     </div>
+
   </section>
   <!-- /.Main content -->
 
-</div>
+</div>s
 <!-- /.content-wrapper -->
 @endsection

@@ -27,6 +27,7 @@
         processing: true,
         ajax: '/purchases/get-suppliers',
         columns: [
+          { data: 'DT_RowIndex', name: 'DT_RowIndex' },
           { data: 'name', name: 'name' },
           { data: 'phone', name: 'phone' },
           { data: 'address', name: 'address' },
@@ -73,6 +74,7 @@
         processing: true,
         ajax: '/purchases/get-products',
         columns: [
+          { data: 'DT_RowIndex', name: 'DT_RowIndex' },
           { data: 'name', name: 'name' },
           { data: 'Action', name: 'action' },
         ]
@@ -106,11 +108,13 @@
         },
         error: function (res)  {
           if(res.status == 422) {
+
             $('.alert .alert-content').html("")
             $('.alert').addClass('show').removeClass('d-none')
             res.responseJSON.forEach(element => {
               $('.alert .alert-content').append("<div>" + element + "</div>")
-            });
+            })
+
           }
         }
       })
@@ -155,8 +159,8 @@
         <div class="col-12">
 
           <!-- Alerts -->
-          <div class="alert animated bounceIn shadow-sm alert-light bg-white alert-dismissible d-none" role="alert">
-            <div class="alert-content text-danger"></div>
+          <div class="alert shadow-sm alert-danger alert-dismissible d-none" role="alert">
+            <div class="alert-content"></div>
             <button type="button" class="close btn-close-alert" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -234,6 +238,7 @@
             <div class="table-responsive">
               <table class="table-product table table-hover table-bordered">
                 <thead>
+                  <th>#</th>
                   <th>Name</th>
                   <th>Action</th>
                 </thead>
@@ -261,6 +266,7 @@
             <div class="table-responsive">
               <table class="table-supplier table table-hover table-bordered">
                 <thead>
+                  <th>#</th>
                   <th>Name</th>
                   <th>Address</th>
                   <th>Phone</th>

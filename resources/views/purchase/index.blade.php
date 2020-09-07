@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laravel POS | Suppliers')
+@section('title', 'Laravel POS | Stock Purchases')
 
 @section('script')
 <script>
@@ -85,8 +85,8 @@
           <div class="card" style="border-radius: 0%">
             <div class="card-header bg-light">
               <div class="d-flex justify-content-between">
-                <a href="{{ route('purchase.create') }}" style="border-radius: 0%" class="btn px-4 btn-create btn-sm btn-success"><i class="fas fa-plus"></i> New Purchase</a>
-                {{-- <button style="border-radius: 0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button> --}}
+                <a href="{{ route('purchase.create') }}" class="btn px-4 btn-create btn-sm btn-flat btn-success"><i class="fas fa-plus"></i> New Purchase</a>
+                <a href="{{ route('purchase.generate-pdf') }}" class="btn px-4 btn-sm btn-flat btn-primary"><i class="fas fa-print"></i></a>
               </div>
             </div>
             <div class="card-body">

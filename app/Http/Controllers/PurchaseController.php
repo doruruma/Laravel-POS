@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\PurchaseHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Purchase;
 use App\Purchase_detail;
 use App\Supplier;
 use App\Product;
+use App\Helpers\PurchaseHelper;
 use Yajra\DataTables\Facades\DataTables as DataTables;
 
 class PurchaseController extends Controller
@@ -20,10 +20,16 @@ class PurchaseController extends Controller
         return view('purchase.index', compact('purchases'));
     }
 
+    public function create()
+    {
+        return view('purchase.create');
+    }
+
     public function getSuppliers()
     {
         $suppliers = Supplier::latest()->get();
         return DataTables::of($suppliers)
+            ->addIndexColumn()
             ->addColumn('Action', function ($suppliers) {
                 return "<center><button style='border-radius: 0%' class='btn btn-sm btn-success btn-check-supplier' data-id='$suppliers->id'><i class='fas fa-check'></i></button></center>";
             })
@@ -35,6 +41,7 @@ class PurchaseController extends Controller
     {
         $products = Product::all();
         return DataTables::of($products)
+            ->addIndexColumn()
             ->addColumn('Action', function ($products) {
                 return "<center><button style='border-radius: 0%' class='btn btn-sm btn-success btn-check-product' data-id='$products->id' data-name='$products->name'><i class='fas fa-check'></i></button></center>";
             })
@@ -53,17 +60,15 @@ class PurchaseController extends Controller
         return view('purchase.table_product');
     }
 
-    public function create()
-    {
-        return view('purchase.create');
-    }
-
     public function store(Request $req)
     {
+        // validasi
         $customMessages = [
             // qty
             'qty.*.required' => 'Item quantity is required',
             'qty.*.numeric' => 'Item quantity must be a number',
+            'qty.*.digits_between' => 'Item quantitiy length should be between 1 and 4 digits',
+            'qty.*.min' => 'Item quantity must be at least 1',
             // price
             'price.*.required' => 'Item price is required',
             'price.*.numeric' => 'Item price must be a number',
@@ -80,7 +85,7 @@ class PurchaseController extends Controller
             'price' => 'required|array',
             'price.*' => 'required|numeric|min:3',
             'qty' => 'required|array',
-            'qty.*' => 'required|numeric'
+            'qty.*' => 'required|numeric|digits_between:1,4|min:1'
         ], $customMessages, [
             'supplier_id' => 'supplier'
         ]);
@@ -126,5 +131,10 @@ class PurchaseController extends Controller
         $total = Purchase::findOrFail($id)->total;
         $details = Purchase_detail::where('purchase_id', $id)->get();
         return view('purchase.purchase_detail', compact('details', 'total'));
+    }
+
+    public function generatePdf()
+    {
+
     }
 }
