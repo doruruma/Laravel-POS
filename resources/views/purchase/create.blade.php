@@ -29,8 +29,8 @@
         columns: [
           { data: 'DT_RowIndex', name: 'DT_RowIndex' },
           { data: 'name', name: 'name' },
-          { data: 'phone', name: 'phone' },
           { data: 'address', name: 'address' },
+          { data: 'phone', name: 'phone' },
           { data: 'Action', name: 'action' },
         ]
       })

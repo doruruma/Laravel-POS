@@ -19,7 +19,7 @@ class SupplierSeeder extends Seeder
 
         // Fill the data
         $faker = Factory::create('id_ID');
-        for ($i=1; $i <= 50; $i++) { 
+        for ($i = 1; $i <= 50; $i++) {
             $supplier = new Supplier;
             $supplier->name = $faker->name;
             $supplier->address = $faker->address;

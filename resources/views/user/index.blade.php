@@ -2,13 +2,34 @@
 
 @section('title', 'Laravel POS | Users')
 
+@section('plugin')
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+@endsection
+
 @section('script')
 <script>
   $(document).ready(function() {
 
     $('.user').addClass('active');
 
-    $('.btn-delete').click(function(evt) {
+    $('.table').DataTable({
+      autoWidth: false,
+      retrieve: true,
+      processing: true,
+      serverSide: true,
+      ajax: '/users/',
+      columns: [
+        { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+        { data: 'name', name: 'name' },
+        { data: 'email', name: 'email' },
+        { data: 'role', name: 'role' },
+        { data: 'Action', name: 'Action', orderable: false, searchable: false },
+      ]
+    })
+
+    $(document).on('click', '.btn-delete', function (evt) {
       evt.preventDefault();
       Swal.fire({
         title: 'Konfirmasi',
@@ -20,7 +41,7 @@
       })
     })
 
-    $('.btn-edit').click(function() {
+    $(document).on('click', '.btn-edit', function () {
       $('#form-edit .text-danger').html('')
       $('#form-edit').attr('action', '/users/' + $(this).data('id'))
       $.ajax({
@@ -119,7 +140,7 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="container">
+    <div class="container mb-5">
 
       <div class="row">
 
@@ -127,44 +148,23 @@
           <div class="card" style="border-radius:0%">
             <div class="card-header bg-light">
               <div class="d-flex justify-content-between">
-                <button style="border-radius:0%" class="btn px-4 btn-create btn-sm btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Create New User</button>
-                <button style="border-radius:0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button>
+                <button class="btn px-4 btn-create btn-sm btn-flat btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Create New User</button>
               </div>
             </div>
             <div class="card-body">
-              <table class="table table-bordered table-hover table-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
-                  </tr>
-                </thead>
-                <tbody>
-                    @php $i = 1; @endphp
-                    @foreach ($users as $user)
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
                     <tr>
-                      <th>{{ $i }}</th>
-                      <td>{{ ucwords($user->name) }}</td>
-                      <td>{{ $user->email }}</td>
-                      <td>{{ $user->role->role }}</td>
-                      <td class="text-center">
-                        <button class="btn btn-sm btn-edit text-info" data-id="{{ $user->id }}" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></button>
-                        <form action={{ route('user.delete', ['user' => $user]) }} method="POST" class="d-inline">
-                          @csrf @method('DELETE')
-                          <button class="btn btn-sm btn-delete text-danger"><i class="far fa-trash-alt"></i></button>
-                        </form>
-                      </td>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Role</th>
+                      <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
                     </tr>
-                    @php $i++ @endphp
-                    @endforeach
-                </tbody>
-              </table>
-            </div>
-            <div class="card-footer">
-              
+                  </thead>
+                </table>
+              </div>
             </div>
           </div>
         </div>

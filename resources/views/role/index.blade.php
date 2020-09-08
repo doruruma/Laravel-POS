@@ -2,13 +2,31 @@
 
 @section('title', 'Laravel POS | Roles')
 
+@section('plugin')
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+@endsection
+
 @section('script')
 <script>
   $(document).ready(function() {
 
     $('.role').addClass('active')
 
-    $('.btn-delete').click(function(evt) {
+    $('.table').DataTable({
+      retrive: true,
+      processing: true,
+      serverSide: true,
+      ajax: '/roles',
+      columns: [
+        { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+        { data: 'role', name: 'role' },
+        { data: 'Action', name: 'Action', orderable: false, searchable: false },
+      ]
+    })
+
+    $(document).on('click', '.btn-delete', function(evt) {
       evt.preventDefault()
       Swal.fire({
         title: 'Konfirmasi',
@@ -20,7 +38,7 @@
       })
     })
 
-    $('.btn-edit').click(function() {
+    $(document).on('click', '.btn-edit', function() {
       $('#form-edit .text-danger').html('')
       $('#form-edit').attr('action', '/roles/' + $(this).data('id'))
       $.ajax({
@@ -122,8 +140,7 @@
           <div class="card" style="border-radius:0%">
             <div class="card-header bg-light">
               <div class="d-flex justify-content-between">
-                <button style="border-radius:0%" class="btn px-4 btn-create btn-sm btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Create New Role</button>
-                <button style="border-radius:0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button>
+                <button class="btn px-4 btn-create btn-sm btn-flat btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Create New Role</button>
               </div>
             </div>
             <div class="card-body">
@@ -135,28 +152,7 @@
                     <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
                   </tr>
                 </thead>
-                <tbody>
-                    @php $i = 1; @endphp
-                    @foreach ($roles as $role)
-                    <tr>
-                      <th>{{ $i }}</th>
-                      <td>{{ $role->role }}</td>
-                      <td class="text-center">
-                        <a href={{ route('role.permission', $role->id) }} class="btn btn-sm text-success"><i class="fas fa-tools"></i></a>
-                        <button class="btn btn-sm btn-edit text-info" data-id="{{ $role->id }}" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></button>
-                        <form action={{ route('role.delete', ['role' => $role]) }} method="POST" class="d-inline">
-                          @csrf @method('DELETE')
-                          <button class="btn btn-sm btn-delete text-danger"><i class="far fa-trash-alt"></i></button>
-                        </form>
-                      </td>
-                    </tr>
-                    @php $i++ @endphp
-                    @endforeach
-                </tbody>
               </table>
-            </div>
-            <div class="card-footer">
-              {{ $roles->links() }}
             </div>
           </div>
         </div>

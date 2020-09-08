@@ -7,15 +7,29 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
 {
     
     public function index()
     {
-        $users = User::without('role')->get()->except(Auth::user()->id);
+        if (request()->ajax()) {
+            $users = User::all()->except(Auth::user()->id);
+            return DataTables::of($users)
+            ->addIndexColumn()
+            ->addColumn('role', function ($users) {
+                return $users->role->role;
+            })
+            ->addColumn('Action', function ($users) {
+                return view('user.datatable_column', compact('users'));
+            })
+            ->removeColumn('id')
+            ->rawColumns(['Action', 'role'])
+            ->make(true);
+        }
         $roles = Role::all();
-        return view('user.index', compact('users', 'roles'));
+        return view('user.index', compact('roles'));
     }
 
     public function get($user)

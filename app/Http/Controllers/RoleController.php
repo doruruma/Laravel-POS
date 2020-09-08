@@ -7,14 +7,25 @@ use App\Menu;
 use App\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class RoleController extends Controller
 {
 
     public function index()
     {
-        $roles = Role::without('accesses')->paginate(5);
-        return view('role.index', compact('roles'));
+        if (request()->ajax()) {
+            $roles = Role::all();
+            return DataTables::of($roles)
+                ->addIndexColumn()
+                ->addColumn('Action', function ($roles) {
+                    return view('role.datatable_column', compact('roles'));
+                })
+                ->removeColumn('id')
+                ->rawColumns(['Action'])
+                ->make(true);
+        }
+        return view('role.index');
     }
 
     public function permission($role_id)

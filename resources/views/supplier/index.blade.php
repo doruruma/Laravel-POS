@@ -12,7 +12,10 @@
 <script>
   $(document).ready(function() {
 
+    $('.supplier').addClass('active')
+
     $('.table').DataTable({
+      autoWidth: false,
       retrieve: true,
       processing: true,
       serverSide: true,
@@ -25,8 +28,6 @@
         { data: 'Action', name: 'Action', orderable: false, searchable: false },        
       ]
     })
-
-    $('.supplier').addClass('active')
 
     $(document).on('click', '.btn-delete', function (evt) {
       evt.preventDefault()
@@ -41,7 +42,6 @@
     })
 
     $(document).on('click', '.btn-edit', function () {
-      console.log('andra')
       $('#form-edit .text-danger').html('')
       $('#form-edit').attr('action', '/suppliers/' + $(this).data('id'))
       $.ajax({
@@ -142,7 +142,7 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="container-fluid mb-5">
+    <div class="container mb-5">
 
       <div class="row">
 
@@ -150,22 +150,23 @@
           <div class="card" style="border-radius: 0%">
             <div class="card-header bg-light">
               <div class="d-flex justify-content-between">
-                <button style="border-radius: 0%" class="btn px-4 btn-create btn-sm btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Register New Suppliers</button>
-                <button style="border-radius: 0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button>
+                <button class="btn px-4 btn-create btn-sm btn-flat btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Register New Suppliers</button>
               </div>
             </div>
             <div class="card-body">
-              <table class="table table-striped table-hover">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Phone</th>
-                    <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
-                  </tr>
-                </thead>
-              </table>
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Address</th>
+                      <th>Phone</th>
+                      <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
             </div>
           </div>
         </div>

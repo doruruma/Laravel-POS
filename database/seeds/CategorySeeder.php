@@ -2,7 +2,6 @@
 
 use App\Category;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class CategorySeeder extends Seeder
 {
@@ -26,5 +25,4 @@ class CategorySeeder extends Seeder
             Category::create($category);
         }
     }
-
 }
