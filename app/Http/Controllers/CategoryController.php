@@ -5,14 +5,25 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
 
 class CategoryController extends Controller
 {
     
     public function index() 
     {
-        $categories = Category::without('products')->paginate(5);
-        return view('category.index', compact('categories'));
+        if (request()->ajax()) {
+            $categories = Category::all();
+            return DataTables::of($categories)
+                ->addIndexColumn()
+                ->addColumn('Action', function ($categories) {
+                    return view('category.datatable_column', compact('categories'));
+                })
+                ->removeColumn('id')
+                ->rawColumns(['Action'])
+                ->make(true);
+        }
+        return view('category.index');
     }
 
     public function get($category)

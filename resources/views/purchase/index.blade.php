@@ -2,17 +2,34 @@
 
 @section('title', 'Laravel POS | Stock Purchases')
 
+@section('plugin')
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+@endsection
+
 @section('script')
 <script>
   $(document).ready(function() {
 
     $('.purchase').addClass('active')
 
-    // $('.btn-create').click(function() {
-    //   $('#form-create .text-danger').html('')
-    // })
+    $('.table').DataTable({
+      autoWidth: false,
+      retrieve: true,
+      processing: true,
+      serverSide: true,
+      ajax: '/purchases',
+      columns: [
+        { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+        { data: 'created_at', name: 'created_at' },
+        { data: 'supplier', name: 'supplier' },
+        { data: 'total', name: 'total' },
+        { data: 'Action', name: 'Action', orderable: false, searchable: false },
+      ]
+    })
 
-    $('.btn-detail').click(function() {
+    $(document).on('click', '.btn-detail', function() {
       $.ajax({
         url: $(this).data('route'),
         success: function(res) {
@@ -90,36 +107,19 @@
               </div>
             </div>
             <div class="card-body">
-              <table class="table table-bordered table-hover table-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Date</th>
-                    <th>Supplier</th>
-                    <th>Total</th>
-                    <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
-                  </tr>
-                </thead>
-                <tbody>
-                    @php $i = 1; @endphp
-                    @foreach ($purchases as $purchase)
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
                     <tr>
-                      <th>{{ $i }}</th>
-                      <td>{{ date('d-m-Y', strtotime($purchase->created_at)) }}</td>
-                      <td>{{ $purchase->supplier->name }}</td>
-                      <td>Rp {{ number_format($purchase->total) }}</td>
-                      <td class="text-center">
-                        <button class="btn btn-sm btn-success btn-detail" data-id={{ $purchase->id }} data-route={{ route('purchase.detail', $purchase->id) }} data-toggle="modal" data-target="#modal-detail" style="border-radius:0%"><i class="fas fa-eye"></i></button>
-                        <button class="btn btn-sm btn-primary btn-print" style="border-radius:0%"><i class="fas fa-print"></i></button>
-                      </td>
+                      <th>#</th>
+                      <th>Date</th>
+                      <th>Supplier</th>
+                      <th>Total</th>
+                      <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
                     </tr>
-                    @php $i++ @endphp
-                    @endforeach
-                </tbody>
-              </table>
-            </div>
-            <div class="card-footer">
-              {{ $purchases->links() }}
+                  </thead>
+                </table>
+              </div>
             </div>
           </div>
         </div>

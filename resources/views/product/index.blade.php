@@ -2,13 +2,36 @@
 
 @section('title', 'Laravel POS | Products')
 
+@section('plugin')
+  <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <script type="text/javascript" src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+  <script type="text/javascript" src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+@endsection
+
 @section('script')
 <script>
   $(document).ready(function() {
 
     $('.product').addClass('active');
 
-    $('.btn-delete').click(function(evt) {
+    $('.table').DataTable({
+      autoWidth: false,
+      retrieve: true,
+      processing: true,
+      serverSide: true,
+      ajax: '/products',
+      columns: [
+        { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+        { data: 'name', name: 'name' },
+        { data: 'description', name: 'description' },
+        { data: 'category', name: 'category' },
+        { data: 'stock', name: 'stock' },
+        { data: 'price', name: 'price' },
+        { data: 'Action', name: 'Action', orderable: false, searchable: false },
+      ]
+    })
+
+    $(document).on('click', '.btn-delete', function(evt) {
       evt.preventDefault();
       Swal.fire({
         title: 'Konfirmasi',
@@ -20,7 +43,7 @@
       })
     })
 
-    $('.btn-edit').click(function(evt) {
+    $(document).on('click', '.btn-edit', function(evt) {
       $('#form-edit .text-danger').html('')
       $('#form-edit').attr('action', '/products/' + $(this).data('id'));
       $.ajax({
@@ -102,48 +125,25 @@
           <div class="card" style="border-radius:0%">
             <div class="card-header bg-light">
               <div class="d-flex justify-content-between">
-                <a href="{{ route('product.create') }}" style="border-radius:0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-plus"></i> Add Product</a>
-                <button style="border-radius:0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button>
+                <a href="{{ route('product.create') }}" class="btn btn-flat px-4 btn-sm btn-success"><i class="fas fa-plus"></i> Add Product</a>
               </div>
             </div>
             <div class="card-body">
-              <table class="table table-hover table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Category</th>
-                    <th>Stock</th>
-                    <th>Price</th>
-                    <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
-                  </tr>
-                </thead>
-                <tbody>
-                    @php $i = 1; @endphp
-                    @foreach ($products as $product)
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered table-striped">
+                  <thead>
                     <tr>
-                      <th>{{ $i }}</th>
-                      <td>{{ $product->name }}</td>
-                      <td>{{ $product->description }}</td>
-                      <td>{{ $product->category->name }}</td>
-                      <td>{{ $product->stock }}</td>
-                      <td>Rp {{ number_format($product->price) }}</td>
-                      <td class="text-center">
-                        <button class="btn btn-sm btn-edit text-info" data-id="{{ $product->id }}" data-toggle="modal" data-target="#modal-edit"><i class="far fa-edit"></i></button>
-                        <form action={{ route('product.delete', ['product' => $product]) }} method="POST" class="d-inline">
-                          @csrf @method('DELETE')
-                          <button class="btn btn-sm btn-delete text-danger"><i class="far fa-trash-alt"></i></button>
-                        </form>
-                      </td>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Category</th>
+                      <th>Stock</th>
+                      <th>Price</th>
+                      <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
                     </tr>
-                    @php $i++ @endphp
-                    @endforeach
-                </tbody>
-              </table>
-            </div>
-            <div class="card-footer">
-              {{ $products->links() }}
+                  </thead>
+                </table>
+              </div>
             </div>
           </div>
         </div>

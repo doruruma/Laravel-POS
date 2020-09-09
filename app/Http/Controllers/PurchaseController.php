@@ -16,8 +16,21 @@ class PurchaseController extends Controller
 
     public function index()
     {
-        $purchases  = Purchase::paginate(5);
-        return view('purchase.index', compact('purchases'));
+        if (request()->ajax()) {
+            $purchases  = Purchase::all();
+            return DataTables::of($purchases)
+                ->addIndexColumn()
+                ->addColumn('supplier', function ($purchases) {
+                    return $purchases->supplier->name;
+                })
+                ->addColumn('Action', function ($purchases) {
+                    return view('purchase.datable_column', compact('purchases'));
+                })
+                ->removeColumn('id')
+                ->rawColumns(['Action', 'supplier'])
+                ->make(true);
+        }
+        return view('purchase.index');
     }
 
     public function create()

@@ -15,6 +15,7 @@
     $('.role').addClass('active')
 
     $('.table').DataTable({
+      autoWidth: false,
       retrive: true,
       processing: true,
       serverSide: true,
@@ -144,15 +145,17 @@
               </div>
             </div>
             <div class="card-body">
-              <table class="table table-bordered table-hover table-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Role</th>
-                    <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
-                  </tr>
-                </thead>
-              </table>
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Role</th>
+                      <th class="text-center text-primary"><i class="fas fa-cogs"></i></th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
             </div>
           </div>
         </div>

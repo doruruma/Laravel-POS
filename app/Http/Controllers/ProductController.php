@@ -6,15 +6,29 @@ use App\Category;
 use App\Product;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class ProductController extends Controller
 {
 
     public function index()
     {
-        $products = Product::with('category')->paginate(5);
+        if (request()->ajax()) {
+            $products = Product::all();
+            return DataTables::of($products)
+                ->addIndexColumn()
+                ->addColumn('category', function ($products) {
+                    return $products->category->name;
+                })
+                ->addColumn('Action', function ($products) {
+                    return view('product.datatable_column', compact('products'));
+                })
+                ->removeColumn('id')
+                ->rawColumns(['Action', 'category'])
+                ->make(true);
+        }
         $categories = Category::without('products')->get();
-        return view('product.index', compact('products', 'categories'));
+        return view('product.index', compact('categories'));
     }
 
     public function get($product)
