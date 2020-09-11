@@ -146,6 +146,11 @@ class PurchaseController extends Controller
         return view('purchase.purchase_detail', compact('details', 'total'));
     }
 
+    public function countTotal(Request $req)
+    {
+        return response()->json(PurchaseHelper::count_total($req->price, $req->qty), 200);
+    }
+
     public function generatePdf()
     {
 

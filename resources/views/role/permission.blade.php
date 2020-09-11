@@ -48,8 +48,7 @@
           <div class="card" style="border-radius: 0%">
             <div class="card-header bg-light">
               <div class="d-flex justify-content-between">
-                <button style="border-radius: 0%" class="btn px-4 btn-create btn-sm btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Add Role</button>
-                <button style="border-radius: 0%" class="btn px-4 btn-sm btn-success"><i class="fas fa-print"></i></button>
+                <button class="btn px-4 btn-flat btn-create btn-sm btn-success" data-toggle="modal" data-target="#modal-create"><i class="fas fa-plus"></i> Add Role</button>
               </div>
             </div>
             <form action={{ route('role.update-permission', $role->id) }} method="POST">

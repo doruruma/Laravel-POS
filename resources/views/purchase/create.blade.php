@@ -12,14 +12,18 @@
 <script>
   $(document).ready(function () {
 
+    // activate sidebar nav
     $('.purchase').addClass('active');
 
+    // remove the X button from the first row of section purchase
     $('.section-purchase tbody tr .btn-remove-row').first().remove()
 
+    // close alert event listener
     $('.btn-close-alert').click(function () {
       $('.alert').addClass('d-none')
     })
 
+    // show suppliers table modal event listener
     $('.btn-choose-supplier').click(function () {
       $('.table-supplier').DataTable({
         retrieve: true,
@@ -36,6 +40,7 @@
       })
     })
 
+    // select the checked supplier
     $(document).on('click', '.btn-check-supplier', function () {
       let id = $(this).data('id')
       $('.input-supplier-id').val(id)
@@ -50,6 +55,7 @@
       })
     })
 
+    // add the section purchase row
     $('.btn-add-row').click(function () {
       $.ajax({
         url: '/purchases/get-table-product',
@@ -59,13 +65,14 @@
       })
     })
 
+    // remove one row from section purchase
     $(document).on('click', '.btn-remove-row', function () {
       $(this).parent().parent().remove()
     })
 
+    // show the products table modal event listener
     let index = 0
     $(document).on('click', '.input-product', function () {   
-      // Get the <tr> index  
       index = $(this).parent().parent().index()
       $('#modal-product').modal('show')
       $('.table-product').DataTable({
@@ -81,12 +88,35 @@
       })
     })
 
+    // select the product from modal
     $(document).on('click', '.btn-check-product', function () {
       index += 1
       let selector = ".section-purchase tbody tr:nth-child(" + index + ")";
       $(selector + " .input-product").val($(this).data('name'))
       $(selector + " .input-product-id").val($(this).data('id'))
       $('#modal-product').modal('toggle')
+    })
+
+    function countSubtotal () {
+      index = $(this).parent().parent().index() + 1
+      let selector = ".section-purchase tbody tr:nth-child(" + index + ")";
+      subtotal = $(this).val() * $(selector + " .input-price").val()
+      $(selector + " .text-subtotal").html("Rp " + subtotal)
+    }
+
+    let subtotal = 0
+    $(document).on('keyup change', '.input-qty', function () {
+      index = $(this).parent().parent().index() + 1
+      let selector = ".section-purchase tbody tr:nth-child(" + index + ")";
+      subtotal = $(this).val() * $(selector + " .input-price").val()
+      $(selector + " .text-subtotal").html("Rp " + subtotal)
+    })
+
+    $(document).on('keyup change', '.input-price', function () {
+      index = $(this).parent().parent().index() + 1
+      let selector = ".section-purchase tbody tr:nth-child(" + index + ")";
+      subtotal = $(this).val() * $(selector + " .input-qty").val()
+      $(selector + " .text-subtotal").html("Rp " + subtotal)
     })
 
     $('.btn-submit').click(function (evt) {
@@ -195,6 +225,7 @@
                         <th>Item</th>
                         <th>Price (Rp)</th>
                         <th>Qty</th>
+                        <th>Subtotal</th>
                         <th></th>
                       </thead>
                       <tbody>
@@ -205,6 +236,7 @@
                     </table>
                   </div>
                   <button type="button" style="border-radius:0%" class="btn btn-sm btn-info btn-add-row"><i class="fas fa-plus"></i> Show More</button>
+                  <p class="text-total">Total : </p>
                   <hr>
                   <button type="submit" style="border-radius:0%" class="btn btn-block btn-primary btn-submit" data-route="{{ route('purchase.store') }}">Submit</button>
                 </form>

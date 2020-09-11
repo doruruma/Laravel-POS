@@ -102,6 +102,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/purchases/create', 'PurchaseController@create')->name('purchase.create');
         Route::post('/purchases/store', 'PurchaseController@store')->name('purchase.store');
         Route::get('/purchases/detail/{id}', 'PurchaseController@detail')->name('purchase.detail');
+        Route::get('/purchases/count-total', 'PurchaseController@countTotal');
         Route::get('/purchases/generate-pdf', 'PurchaseController@generatePdf')->name('purchase.generate-pdf');
         // Stock Purchase JSON
         Route::get('/purchases/get-suppliers', 'PurchaseController@getSuppliers');
