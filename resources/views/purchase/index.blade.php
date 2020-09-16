@@ -24,7 +24,7 @@
         { data: 'DT_RowIndex', name: 'DT_RowIndex' },
         { data: 'created_at', name: 'created_at' },
         { data: 'supplier', name: 'supplier' },
-        { data: 'total', name: 'total' },
+        { data: 'Total', name: 'Total' },
         { data: 'Action', name: 'Action', orderable: false, searchable: false },
       ]
     })

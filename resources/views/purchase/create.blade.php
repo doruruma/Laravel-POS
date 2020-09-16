@@ -13,7 +13,7 @@
   $(document).ready(function () {
 
     // activate sidebar nav
-    $('.purchase').addClass('active');
+    $('.purchase').addClass('active')
 
     // remove the X button from the first row of section purchase
     $('.section-purchase tbody tr .btn-remove-row').first().remove()
@@ -91,34 +91,66 @@
     // select the product from modal
     $(document).on('click', '.btn-check-product', function () {
       index += 1
-      let selector = ".section-purchase tbody tr:nth-child(" + index + ")";
+      let selector = ".section-purchase tbody tr:nth-child(" + index + ")"
       $(selector + " .input-product").val($(this).data('name'))
       $(selector + " .input-product-id").val($(this).data('id'))
       $('#modal-product').modal('toggle')
     })
 
-    function countSubtotal () {
-      index = $(this).parent().parent().index() + 1
-      let selector = ".section-purchase tbody tr:nth-child(" + index + ")";
-      subtotal = $(this).val() * $(selector + " .input-price").val()
-      $(selector + " .text-subtotal").html("Rp " + subtotal)
-    }
-
+    // product quantity, price, subtotal
     let subtotal = 0
-    $(document).on('keyup change', '.input-qty', function () {
-      index = $(this).parent().parent().index() + 1
-      let selector = ".section-purchase tbody tr:nth-child(" + index + ")";
-      subtotal = $(this).val() * $(selector + " .input-price").val()
-      $(selector + " .text-subtotal").html("Rp " + subtotal)
+    $(document).on('click', '.btn-add-qty', function () {
+      index = $(this).parent().parent().parent().parent().index() + 1
+      let selector = ".section-purchase tbody tr:nth-child(" + index + ")"
+      $.ajax({
+        url: $(this).data('route'),
+        data: { qty: $(this).parent().data('qty') },
+        method: 'GET',
+        success: function (res) {
+          $(selector + " .btn-group").data('qty', res)
+          $(selector + " .btn-qty").html(res)
+          $(selector + " .input-qty").val(res)
+          let subtotal = $(selector + " .input-price").val() * $(selector + " .btn-qty").html()
+          $(selector + " .text-subtotal").html('Rp ' + subtotal)
+        }
+      })
     })
 
+    $(document).on('click', '.btn-min-qty', function () {
+      index = $(this).parent().parent().parent().parent().index() + 1
+      let selector = ".section-purchase tbody tr:nth-child(" + index + ")"
+      $.ajax({
+        url: $(this).data('route'),
+        data: { qty: $(this).parent().data('qty') },
+        method: 'GET',
+        success: function (res) {
+          $(selector + " .btn-group").data('qty', res)
+          $(selector + " .btn-qty").html(res)
+          $(selector + " .input-qty").val(res)
+          let subtotal = $(selector + " .input-price").val() * $(selector + " .btn-qty").html()
+          $(selector + " .text-subtotal").html('Rp ' + subtotal)
+        },
+        error: function (res) {
+          if (res.status == 422) {
+            Swal.fire({
+              title: res.responseJSON.type,
+              text: res.responseJSON.message,
+              icon: res.responseJSON.type
+            })
+          }
+        }
+      })
+    })
+
+    // count subtotal
     $(document).on('keyup change', '.input-price', function () {
       index = $(this).parent().parent().index() + 1
-      let selector = ".section-purchase tbody tr:nth-child(" + index + ")";
+      let selector = ".section-purchase tbody tr:nth-child(" + index + ")"
       subtotal = $(this).val() * $(selector + " .input-qty").val()
       $(selector + " .text-subtotal").html("Rp " + subtotal)
     })
 
+    // form submit event listener
     $('.btn-submit').click(function (evt) {
       evt.preventDefault()
       $.ajax({
@@ -127,7 +159,7 @@
         dataType: 'JSON',
         data: $('.section-purchase form').serialize(),
         success: function (res) {
-          $('.alert').addClass('d-none');
+          $('.alert').addClass('d-none')
           Swal.fire({
             title: res.type,
             text: res.message,
@@ -138,13 +170,11 @@
         },
         error: function (res)  {
           if(res.status == 422) {
-
             $('.alert .alert-content').html("")
             $('.alert').addClass('show').removeClass('d-none')
             res.responseJSON.forEach(element => {
               $('.alert .alert-content').append("<div>" + element + "</div>")
             })
-
           }
         }
       })
@@ -182,7 +212,7 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="container">
+    <div class="container-fluid">
 
       <div class="row">
 
@@ -236,7 +266,11 @@
                     </table>
                   </div>
                   <button type="button" style="border-radius:0%" class="btn btn-sm btn-info btn-add-row"><i class="fas fa-plus"></i> Show More</button>
-                  <p class="text-total">Total : </p>
+                  {{-- <hr>
+                  <div class="d-flex justify-content-between p-2 bg-light">
+                    <div>TOTAL : </div>
+                    <div class="text-total">Rp </div>
+                  </div> --}}
                   <hr>
                   <button type="submit" style="border-radius:0%" class="btn btn-block btn-primary btn-submit" data-route="{{ route('purchase.store') }}">Submit</button>
                 </form>

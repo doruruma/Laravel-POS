@@ -4,19 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Purchase Report</title>
+	<title>Detailed Purchase Report</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
 
-	<style type="text/css">
+  <style type="text/css">
     .my-table {
       padding-left: 4px;
       padding-right: 4px;
     }
   </style>
 
-	<div class="h4">Purchase Report</div>
+	<div class="h4">Detailed Purchase Report</div>
 
   <table class="mt-4">
 		<tbody>
@@ -35,6 +35,23 @@
 		</tbody>
 	</table>
   
+  <table class="table table-borderless mt-5">
+    <tbody>
+      <tr>
+        <td>Date</td>
+        <td>: {{ date('d-m-Y', strtotime($purchase->created_at)) }}</td>
+      </tr>
+      <tr>
+        <td>Supplier</td>
+        <td>: {{ $purchase->supplier->name }}</td>
+      </tr>
+      <tr>
+        <td>Total</td>
+        <td>: Rp {{ number_format($purchase->total) }}</td>
+      </tr>
+    </tbody>
+  </table>
+  
   <table class="table table-bordered mt-5">
 		<thead>
 			<tr>
@@ -46,13 +63,13 @@
 		</thead>
 		<tbody>
 			@php $i = 1 @endphp
-			@foreach($purchases as $purchase)
-			<tr>
-				<td>{{ $i++ }}</td>
-        <td>{{ date('d-m-Y', strtotime($purchase->created_at)) }}</td>
-        <td>{{ $purchase->supplier->name }}</td>
-        <td>Rp {{ number_format($purchase->total) }}</td>
-			</tr>
+			@foreach($purchase->detail as $detail)
+      <tr>
+        <td>{{ $detail->product->name }}</td>
+        <td>Rp {{ number_format($detail->price) }}</td>
+        <td>{{ $detail->qty }}</td>
+        <td>Rp {{ number_format($detail->subtotal) }}</td>
+      </tr>
 			@endforeach
 		</tbody>
 	</table>

@@ -17,14 +17,18 @@ class ProductController extends Controller
             $products = Product::all();
             return DataTables::of($products)
                 ->addIndexColumn()
+                ->removeColumn('price')
                 ->addColumn('category', function ($products) {
                     return $products->category->name;
+                })
+                ->addColumn('Price', function ($products) {
+                    return "Rp " .  number_format($products->price);
                 })
                 ->addColumn('Action', function ($products) {
                     return view('product.datatable_column', compact('products'));
                 })
                 ->removeColumn('id')
-                ->rawColumns(['Action', 'category'])
+                ->rawColumns(['Action', 'category', 'Price'])
                 ->make(true);
         }
         $categories = Category::without('products')->get();
@@ -87,4 +91,5 @@ class ProductController extends Controller
             'message' => 'Berhasil Menghapus Data'
         ]);
     }
+
 }

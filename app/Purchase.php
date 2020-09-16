@@ -11,6 +11,11 @@ class Purchase extends Model
     protected $guarded = [];
 
     // Eloquent Relation
+    public function detail()
+    {
+        return $this->hasMany(Purchase_detail::class);
+    }
+
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);

@@ -34,36 +34,55 @@
   <!-- Main content -->
   <section class="content">
 
-    <div class="row">
+    <div class="container">
 
-      <div class="col-md-3">
-        <div class="small-box bg-danger">
-          <div class="inner">
-            <h3>65</h3>
-            <p>Unique Visitors</p>
-          </div>
-          <div class="icon">
-            <i class="fas fa-chart-pie"></i>
-          </div>
-          <a href="#" class="small-box-footer">
-            More info <i class="fas fa-arrow-circle-right"></i>
-          </a>
-        </div>
-      </div>
+      <div class="row">
 
-      <div class="col-md-3">
-        <div class="small-box bg-danger">
-          <div class="inner">
-            <h3>65</h3>
-            <p>Unique Visitors</p>
+        <div class="col-md-4">
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>65</h3>
+              <p>Suppliers</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-people-carry"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              More info <i class="fas fa-arrow-circle-right"></i>
+            </a>
           </div>
-          <div class="icon">
-            <i class="fas fa-chart-pie"></i>
-          </div>
-          <a href="#" class="small-box-footer">
-            More info <i class="fas fa-arrow-circle-right"></i>
-          </a>
         </div>
+
+        <div class="col-md-4">
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>65</h3>
+              <p>Products</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-archive"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              More info <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="small-box bg-primary">
+            <div class="inner">
+              <h3>12</h3>
+              <p>Categories</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-th"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+              More info <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -71,6 +90,6 @@
   </section>
   <!-- /.Main content -->
 
-</div>s
+</div>
 <!-- /.content-wrapper -->
 @endsection

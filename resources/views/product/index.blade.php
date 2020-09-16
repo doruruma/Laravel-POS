@@ -26,7 +26,7 @@
         { data: 'description', name: 'description' },
         { data: 'category', name: 'category' },
         { data: 'stock', name: 'stock' },
-        { data: 'price', name: 'price' },
+        { data: 'Price', name: 'Price' },
         { data: 'Action', name: 'Action', orderable: false, searchable: false },
       ]
     })

@@ -102,12 +102,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/purchases/create', 'PurchaseController@create')->name('purchase.create');
         Route::post('/purchases/store', 'PurchaseController@store')->name('purchase.store');
         Route::get('/purchases/detail/{id}', 'PurchaseController@detail')->name('purchase.detail');
-        Route::get('/purchases/count-total', 'PurchaseController@countTotal');
         Route::get('/purchases/generate-pdf', 'PurchaseController@generatePdf')->name('purchase.generate-pdf');
+        Route::get('/purchases/generate-detail-pdf/{id}', 'PurchaseController@generateDetailPdf')->name('purchase.generate-detail-pdf');
         // Stock Purchase JSON
         Route::get('/purchases/get-suppliers', 'PurchaseController@getSuppliers');
         Route::get('/purchases/get-products', 'PurchaseController@getProducts');
         Route::get('/purchases/get-supplier-by-id/{id}', 'PurchaseController@getSupplierById');
+        Route::get('/purchases/add-qty', 'PurchaseController@addQty')->name('purchase.add-qty');
+        Route::get('/purchases/min-qty', 'PurchaseController@minQty')->name('purchase.min-qty');
         // Stock Purchase View
         Route::get('/purchases/get-table-product', 'PurchaseController@getTableProduct');
 
@@ -141,4 +143,5 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/cart/min/{cart}', 'CartController@minQty')->name('cart.min-qty');
         Route::delete('/cart/{cart}', 'CartController@delete')->name('cart.delete');
     });
+
 });

@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...

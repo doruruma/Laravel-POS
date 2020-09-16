@@ -9,6 +9,7 @@ use App\Purchase_detail;
 use App\Supplier;
 use App\Product;
 use App\Helpers\PurchaseHelper;
+use Barryvdh\DomPDF\Facade as PDF;
 use Yajra\DataTables\Facades\DataTables as DataTables;
 
 class PurchaseController extends Controller
@@ -20,14 +21,18 @@ class PurchaseController extends Controller
             $purchases  = Purchase::all();
             return DataTables::of($purchases)
                 ->addIndexColumn()
+                ->removeColumn('total')
                 ->addColumn('supplier', function ($purchases) {
                     return $purchases->supplier->name;
+                })
+                ->addColumn('Total', function ($purchases) {
+                    return "Rp " . number_format($purchases->total);
                 })
                 ->addColumn('Action', function ($purchases) {
                     return view('purchase.datable_column', compact('purchases'));
                 })
                 ->removeColumn('id')
-                ->rawColumns(['Action', 'supplier'])
+                ->rawColumns(['Action', 'supplier', 'Total'])
                 ->make(true);
         }
         return view('purchase.index');
@@ -146,13 +151,36 @@ class PurchaseController extends Controller
         return view('purchase.purchase_detail', compact('details', 'total'));
     }
 
-    public function countTotal(Request $req)
+    public function addQty(Request $req)
     {
-        return response()->json(PurchaseHelper::count_total($req->price, $req->qty), 200);
+        $qty = $req->qty += 1;
+        return response()->json($qty, 200);
+    }
+
+    public function minQty(Request $req)
+    {
+        if ($req->qty == 1) {
+            return response()->json([
+                'type' => 'error',
+                'message' => '1 is minimum quantity'
+            ], 422);
+        }
+        $qty = $req->qty -= 1;
+        return response()->json($qty, 200);
     }
 
     public function generatePdf()
     {
-
+        $purchases = Purchase::all();
+        $pdf = PDF::loadView('purchase.purchase_pdf', compact('purchases'));
+        return $pdf->stream();
     }
+
+    public function generateDetailPdf($id)
+    {
+        $purchase = Purchase::findOrFail($id);
+        $pdf = PDF::loadView('purchase.purchase_detail_pdf', compact('purchase'));
+        return $pdf->stream();
+    }
+
 }
