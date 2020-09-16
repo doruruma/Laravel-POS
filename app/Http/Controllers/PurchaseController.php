@@ -181,6 +181,7 @@ class PurchaseController extends Controller
         $purchase = Purchase::findOrFail($id);
         $pdf = PDF::loadView('purchase.purchase_detail_pdf', compact('purchase'));
         return $pdf->stream();
+        exit();
     }
 
 }

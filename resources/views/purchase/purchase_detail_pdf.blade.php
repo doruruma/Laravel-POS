@@ -56,21 +56,27 @@
 		<thead>
 			<tr>
 				<th>No</th>
-				<th>Date</th>
-				<th>Supplier</th>
-				<th>Total</th>
+				<th>Product</th>
+				<th>Price</th>
+        <th>Qty</th>
+        <th>Subtotal</th>
 			</tr>
 		</thead>
 		<tbody>
 			@php $i = 1 @endphp
 			@foreach($purchase->detail as $detail)
       <tr>
+        <td>{{ $i++ }}</td>
         <td>{{ $detail->product->name }}</td>
         <td>Rp {{ number_format($detail->price) }}</td>
         <td>{{ $detail->qty }}</td>
         <td>Rp {{ number_format($detail->subtotal) }}</td>
       </tr>
-			@endforeach
+      @endforeach
+      <tr>
+        <td colspan="4">Total</td>
+        <td>Rp {{ number_format($purchase->total) }}</td>
+      </tr>
 		</tbody>
 	</table>
   
